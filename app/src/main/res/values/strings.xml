@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NutriHealth</string>
+    <string name="loading">Se incarca...</string>
 </resources>
