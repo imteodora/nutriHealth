@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="customToolbar"
+            type="com.nutrihealth.views.CustomToolbar" />
+
+        <variable
+            name="showBackIcon"
+            type="boolean" />
+
+        <variable
+            name="showLogo"
+            type="boolean" />
+
+    </data>
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/toolbar_backcontainer"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:onClick="@{customToolbar::onBackPressed}"
+                android:visibility="@{showBackIcon ? View.VISIBLE:View.GONE}">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/back_arrow_white" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/app_logo"
+                android:visibility="@{showBackIcon ? View.VISIBLE:View.GONE}" />
+
+            <TextView
+                android:id="@+id/toolbar_title_tv"
+                fontPath="fonts/Raleway-BlackItalic.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+</layout>

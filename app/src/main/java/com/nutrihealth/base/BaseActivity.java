@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,10 +58,23 @@ public class BaseActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    protected void showCustomDialog(String title, String info, DialogType type, View.OnClickListener listener){
+    public void setStatusBarColor(int colorid) {
+        Window window = getWindow();
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+       // finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(this, colorid));
+    }
+
+    protected void showCustomDialog(String title, String info, DialogType type, View.OnClickListener listener) {
 
 
-        if(this.isFinishing()){
+        if (this.isFinishing()) {
             return;
         }
 
@@ -73,32 +88,32 @@ public class BaseActivity extends AppCompatActivity {
         ImageView imageView = dialoglayout.findViewById(R.id.image);
         final RelativeLayout parentView = dialoglayout.findViewById(R.id.parent);
 
-        if(listener != null){
+        if (listener != null) {
             parentView.setOnClickListener(listener);
         }
 
 
-        if(title != null){
+        if (title != null) {
             titleTv.setText(title);
-        }else{
+        } else {
             titleTv.setVisibility(View.GONE);
         }
 
-        if(info!=null){
+        if (info != null) {
             infoTv.setText(info);
         }
 
-        switch (type){
+        switch (type) {
             case ERROR:
-                imageView.setImageResource( R.drawable.ic_error_white_24dp);
+                imageView.setImageResource(R.drawable.ic_error_white_24dp);
                 break;
             case INFO:
-                imageView.setImageResource( R.drawable.ic_info_white_24dp);
-                parentView.setBackground(ContextCompat.getDrawable(BaseActivity.this,R.drawable.dialog_blue_background));
+                imageView.setImageResource(R.drawable.ic_info_white_24dp);
+                parentView.setBackground(ContextCompat.getDrawable(BaseActivity.this, R.drawable.dialog_blue_background));
                 break;
             case SUCCESS:
-                imageView.setImageResource( R.drawable.ic_check_circle_white_24dp);
-                parentView.setBackground(ContextCompat.getDrawable(BaseActivity.this,R.drawable.dialog_green_background));
+                imageView.setImageResource(R.drawable.ic_check_circle_white_24dp);
+                parentView.setBackground(ContextCompat.getDrawable(BaseActivity.this, R.drawable.dialog_green_background));
                 break;
             default:
                 break;
@@ -115,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                if(customDialog.isShowing()){
+                if (customDialog.isShowing()) {
                     customDialog.dismiss();
                     parentView.performClick();
                 }
@@ -126,7 +141,7 @@ public class BaseActivity extends AppCompatActivity {
         timer.start();
     }
 
-    protected void dismissCustomDialog(){
+    protected void dismissCustomDialog() {
         customDialog.dismiss();
     }
 

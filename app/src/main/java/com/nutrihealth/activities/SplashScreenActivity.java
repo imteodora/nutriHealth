@@ -17,6 +17,8 @@ public class SplashScreenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        setStatusBarColor(R.color.black);
+
         switchScreenHandler = new Handler();
         switchScreenHandler.postDelayed(new Runnable() {
             @Override
@@ -27,6 +29,6 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     private void goToNextScreen() {
-        IntentStarter.gotoHomeActivity(this, true);
+        IntentStarter.gotoProfileActivity(this, true);
     }
 }

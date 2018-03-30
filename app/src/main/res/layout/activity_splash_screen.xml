@@ -30,7 +30,7 @@
             android:layout_height="20dp"
             />
         <TextView
-            fontPath="fonts/OpenSans-Regular.ttf"
+            fontPath="fonts/Raleway-Medium.ttf"
             android:textSize="18dp"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
