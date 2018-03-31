@@ -21,5 +21,11 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="DialogAnimationUpToDown">
+        <item name="android:windowEnterAnimation">@anim/activity_slide_in_down</item>
+        <item name="android:windowExitAnimation">@anim/activity_slide_out_down</item>
+    </style>
+
+
 
 </resources>

@@ -11,6 +11,8 @@ public class PrefsManager {
 
     private static final String PREFS_NAME = "nutri_health_prefs";
     private static final String KEY_IS_FIRST_LAUNCH = "is_first_launch";
+    private static final String KEY_USERNAME = "key_username";
+    private static final String KEY_PICTURE = "key_picture";
 
     private static PrefsManager instance = null;
     private SharedPreferences.Editor editor;
@@ -34,5 +36,23 @@ public class PrefsManager {
             editor.putBoolean(KEY_IS_FIRST_LAUNCH, false).commit();
         }
         return isFirstLaunch;
+    }
+
+    public void putKeyPicture(String picture) {
+        editor.putString(KEY_PICTURE, picture);
+        editor.commit();
+    }
+
+    public String getKeyPicture() {
+        return sharedPreferences.getString(KEY_PICTURE, "");
+    }
+
+    public void putKeyName(String name) {
+        editor.putString(KEY_USERNAME, name);
+        editor.commit();
+    }
+
+    public String getKeyName() {
+        return sharedPreferences.getString(KEY_USERNAME, "");
     }
 }

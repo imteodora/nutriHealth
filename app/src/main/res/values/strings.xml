@@ -2,8 +2,37 @@
     <string name="app_name">NutriHealth</string>
     <string name="loading">Se incarca...</string>
 
+    <!-- Errors -->
+    <string name="error_title">Eroare</string>
+    <string name="error_no_input">Campul este obligatoriu</string>
+    <string name="error_no_name">Completeaza un nume</string>
+    <string name="error_no_current_weight">Completeaza greutatea actuala</string>
+    <string name="error_no_gender">Alege sexul</string>
+    <string name="error_no_height">Completeaza inaltimea</string>
+    <string name="error_no_age">Completeaza varsta</string>
+    <string name="error_no_activity_type">Completeaza tipul activitatii</string>
+
     <!-- Profile screen -->
     <string name="personal_data">Date personale</string>
     <string name="save_profile">Salveaza</string>
-    <string name="name">Name</string>
+    <string name="name">Nume</string>
+    <string name="age">Varsta</string>
+    <string name="height">Inaltime(cm)</string>
+    <string name="actual_weight">Greutatea actuala(kg)</string>
+    <string name="choose">Alege</string>
+    <string name="edit_profile_pic">Alege o fotografie</string>
+    <string name="from_gallery">Din galerie</string>
+    <string name="take_a_pic">Fa o poza</string>
+    <string name="every_day_sport">Activitatile fizice zilnice</string>
+    <string name="choose_activities_level">Alege tipul activitatilor zilnice</string>
+    <string name="activity_lvl_1">Munca sedentara si putine alte activitati</string>
+    <string name="activity_lvl_2">Munca in picioare sau exercitii usoare 1-3 zile pe saptamana</string>
+    <string name="activity_lvl_3">Activitati zilnice moderate sau exercitii 5-6 zile pe saptamana</string>
+    <string name="activity_lvl_4">Exercitii intense zi de zi sau munca fizica intensa</string>
+    <string name="activity_lvl_5">Exercitii foarte obositoare si indelungate</string>
+    <string name="lvl_1">Nivelul 1</string>
+    <string name="lvl_2">Nivelul 2</string>
+    <string name="lvl_3">Nivelul 3</string>
+    <string name="lvl_4">Nivelul 4</string>
+    <string name="lvl_5">Nivelul 5</string>
 </resources>

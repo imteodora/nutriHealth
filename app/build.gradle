@@ -29,9 +29,11 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'android.arch.lifecycle:extensions:1.0.0-beta2'
 
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.+'
     testCompile 'junit:junit:4.12'
 }
