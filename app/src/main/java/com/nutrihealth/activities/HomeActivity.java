@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nutrihealth.R;
 import com.nutrihealth.adapters.NavigationDrawerAdapter;
@@ -17,6 +18,7 @@ import com.nutrihealth.databinding.ActivityHomeBinding;
 import com.nutrihealth.listeners.DrawerItemListener;
 import com.nutrihealth.model.HomeInfos;
 import com.nutrihealth.repository.Resource;
+import com.nutrihealth.utils.BitmapUtils;
 import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.viewModels.HomeViewModel;
 import com.nutrihealth.viewModels.ProfileViewModel;
@@ -32,6 +34,8 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
     private NavigationDrawerAdapter adapter;
     private ActionBarDrawerToggle drawerToggle;
+
+    private boolean doubleBackToExitPressedOnce = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,30 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     }
 
     private void populateViews(HomeInfos data) {
+
+        binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(data.getImage()));
+        binding.idealWeightTv.setText(Integer.toString(data.getIdealWeight()) + " kg");
+        binding.weightToLoseTv.setText(Integer.toString(data.getActualWeight() - data.getIdealWeight()) + " kg");
+        binding.calPerDayTv.setText(Integer.toString(data.getKcalPerDay()));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getResources().getString(R.string.back_to_exit), Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 3000);
     }
 
     @Override
@@ -109,6 +137,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         adapter.setSelectedItemIndex(drawerItem.ordinal());
         switch (drawerItem) {
             case ALARMS:
+                IntentStarter.gotoAlarmsActivity(HomeActivity.this, false);
                 break;
 
         }

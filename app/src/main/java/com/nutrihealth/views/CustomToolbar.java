@@ -23,7 +23,7 @@ public class CustomToolbar extends Toolbar {
         void onBackButtonPressed();
     }
 
-    private OnBackButtonPressedListener onBackButtonPressedListener;
+    private OnBackButtonPressedListener onBackButtonPressedListener = null;
     private ViewToolbarBinding binding;
 
 
@@ -45,6 +45,7 @@ public class CustomToolbar extends Toolbar {
 
     public void init(Context context) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_toolbar, this, true);
+        binding.setCustomToolbar(this);
 
     }
 

@@ -9,10 +9,12 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -140,6 +143,28 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
+    private void setDividerColor(NumberPicker picker, int color) {
+
+        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (java.lang.reflect.Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    ColorDrawable colorDrawable = new ColorDrawable(color);
+                    pf.set(picker, colorDrawable);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -207,10 +232,19 @@ public class ProfileActivity extends BaseActivity {
         final NumberPicker agePicker = (NumberPicker) pickAgeDialog.findViewById(R.id.numberPicker);
         agePicker.setMaxValue(90); // max value 100
         agePicker.setMinValue(18);   // min value 0
+
+        setDividerColor(agePicker, ContextCompat.getColor(ProfileActivity.this,R.color.light_blue));
+        String selectedAge = binding.ageEt.getText().toString();
+        if(!InputValidator.isInputEmpty(selectedAge)){
+            agePicker.setValue(Integer.valueOf(selectedAge));
+        }
         agePicker.setWrapSelectorWheel(false);
 
         Window window = pickAgeDialog.getWindow();
-        window.setGravity(Gravity.CENTER);
+        window.setGravity(Gravity.TOP);
+        window.getAttributes().windowAnimations = R.style.DialogAnimationUpToDown;
+        window.setBackgroundDrawableResource(android.R.color.white);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

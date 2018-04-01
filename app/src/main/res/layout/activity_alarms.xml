@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="alarmsActivity"
+            type="com.nutrihealth.activities.AlarmsActivity"/>
+
+    </data>
+
+    <RelativeLayout
+        android:background="@color/light_blue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.nutrihealth.views.CustomToolbar
+            android:id="@+id/alarms_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            app:contentInsetStart="0dp"
+            app:title="@string/alarms_title" />
+
+        <TextSwitcher
+            android:id="@+id/text_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alarms_toolbar"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_marginTop="20dp" />
+
+    </RelativeLayout>
+
+</layout>

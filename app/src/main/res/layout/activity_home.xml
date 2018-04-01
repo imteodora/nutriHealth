@@ -31,17 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:id="@+id/user_profile_iv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_account_circle_black_48dp" />
+
 
                 <TextView
-                    android:layout_toRightOf="@+id/user_profile_iv"
-                    android:layout_toEndOf="@+id/user_profile_iv"
                     android:id="@+id/login_register_et"
                     fontPath="fonts/Raleway-Medium.ttf"
                     android:layout_width="wrap_content"
@@ -72,6 +64,110 @@
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_menu" />
                 </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:layout_below="@+id/home_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/user_profile_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_account_circle_black_48dp" />
+
+                <LinearLayout
+                    android:layout_below="@+id/user_profile_iv"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/ideal_weight"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_big_1"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/ideal_weight_tv"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="66 kg"
+                            android:textColor="@color/light_blue"
+                            android:textSize="@dimen/text_big_3"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/weight_to_lose"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_big_1"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/weight_to_lose_tv"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="6 kg"
+                            android:textColor="@color/light_blue"
+                            android:textSize="@dimen/text_big_3"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/kcal_per_day"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_big_1"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/cal_per_day_tv"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="1200"
+                            android:textColor="@color/light_blue"
+                            android:textSize="@dimen/text_big_3"
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
 
             </RelativeLayout>
             <ProgressBar
