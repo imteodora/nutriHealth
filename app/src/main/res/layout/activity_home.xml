@@ -14,13 +14,109 @@
             type="boolean" />
     </data>
 
-    <RelativeLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{showProgressBar ? View.VISIBLE:View.GONE}" />
-    </RelativeLayout>
+        <!-- Main content view -->
+        <RelativeLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <RelativeLayout
+                android:id="@+id/home_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:id="@+id/user_profile_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_account_circle_black_48dp" />
+
+                <TextView
+                    android:layout_toRightOf="@+id/user_profile_iv"
+                    android:layout_toEndOf="@+id/user_profile_iv"
+                    android:id="@+id/login_register_et"
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:onClick="@{homeActivity::onEditInfoPressed}"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/edit_info"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_medium_2" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:onClick="@{homeActivity::onMenuButtonPressed}"
+                    android:paddingRight="@dimen/margin_medium"
+                    android:paddingLeft="@dimen/margin_medium">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_menu" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="@{showProgressBar ? View.VISIBLE:View.GONE}" />
+        </RelativeLayout>
+        <!-- Navigation drawer -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:background="@color/black"
+                android:id="@+id/drawer_header"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/logo"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#CCCCCC" />
+            </RelativeLayout>
+
+            <ListView
+                android:background="@color/light_blue"
+                android:id="@+id/drawer_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/drawer_header"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+
 </layout>

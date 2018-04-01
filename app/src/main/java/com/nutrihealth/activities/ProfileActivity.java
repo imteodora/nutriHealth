@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,18 +17,16 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
@@ -34,13 +34,18 @@ import android.widget.RadioButton;
 import com.nutrihealth.R;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.constants.Constants;
-import com.nutrihealth.databinding.ActivityHomeBinding;
 import com.nutrihealth.databinding.ActivityProfileBinding;
+import com.nutrihealth.model.BaseResponse;
+import com.nutrihealth.model.ProfileInfos;
 import com.nutrihealth.prefs.PrefsManager;
+import com.nutrihealth.repository.Resource;
 import com.nutrihealth.utils.BitmapUtils;
 import com.nutrihealth.utils.FontUtils;
 import com.nutrihealth.utils.InputValidator;
+import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.utils.PermissionUtil;
+import com.nutrihealth.viewModels.ProfileViewModel;
+import com.nutrihealth.views.CustomToolbar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,12 +66,15 @@ public class ProfileActivity extends BaseActivity {
     private static final int PICK_PHOTO_REQUEST_CODE = 1923;
 
     private ActivityProfileBinding binding;
+    private ProfileViewModel viewModel;
+
     private Uri cameraImageFileUri;
     private int selectedLvl = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(ProfileActivity.this).get(ProfileViewModel.class);
         binding = DataBindingUtil.setContentView(ProfileActivity.this, R.layout.activity_profile);
 
         binding.setProfileActivity(this);
@@ -74,6 +82,103 @@ public class ProfileActivity extends BaseActivity {
 
 
         setUpViews();
+        listenToLiveData();
+
+        if (getIntent().hasExtra(Constants.EDIT_INFO_CODE)) {
+            viewModel.returnUserInfos(ProfileActivity.this);
+            binding.profileToolbar.setOnBackButtonPressedListener(new CustomToolbar.OnBackButtonPressedListener() {
+                @Override
+                public void onBackButtonPressed() {
+                    finish();
+                    overridePendingTransition(R.anim.activity_slide_back_in_down, R.anim.activity_slide_out_back_down);
+                }
+            });
+
+        }
+
+    }
+
+    private void listenToLiveData() {
+
+        viewModel.getEditProfileLiveData().observe(ProfileActivity.this, new Observer<Resource<BaseResponse>>() {
+            @Override
+            public void onChanged(@Nullable Resource<BaseResponse> baseResponseResource) {
+                if (baseResponseResource.getState() == Resource.State.LOADING) {
+                    binding.setShowProgressBar(true);
+                } else if (baseResponseResource.getState() == Resource.State.ERROR) {
+                    binding.setShowProgressBar(false);
+                    showCustomDialog(getResources().getString(R.string.error_title), baseResponseResource.getMessage(), DialogType.ERROR, null);
+                } else if (baseResponseResource.getState() == Resource.State.SUCCESS) {
+                    binding.setShowProgressBar(false);
+                    showCustomDialog(getResources().getString(R.string.success), getResources().getString(R.string.profile_infos_saved), DialogType.SUCCESS, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dismissCustomDialog();
+                            IntentStarter.gotoHomeActivity(ProfileActivity.this, true);
+                        }
+                    });
+
+                }
+            }
+        });
+
+        viewModel.getUserInfosLiveData().observe(ProfileActivity.this, new Observer<Resource<ProfileInfos>>() {
+            @Override
+            public void onChanged(@Nullable Resource<ProfileInfos> profileInfosResource) {
+                if (profileInfosResource.getState() == Resource.State.LOADING) {
+                    binding.setShowProgressBar(true);
+                } else if (profileInfosResource.getState() == Resource.State.ERROR) {
+                    binding.setShowProgressBar(false);
+                    showCustomDialog(getResources().getString(R.string.error_title), profileInfosResource.getMessage(), DialogType.ERROR, null);
+                } else if (profileInfosResource.getState() == Resource.State.SUCCESS) {
+                    binding.setShowProgressBar(false);
+
+                    populateViews(profileInfosResource.getData());
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.activity_slide_back_in_down, R.anim.activity_slide_out_back_down);
+    }
+
+    private void populateViews(ProfileInfos data) {
+        String base64Image = PrefsManager.getInstance(ProfileActivity.this).getKeyPicture();
+        binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(base64Image));
+
+        binding.nameEt.setText(data.getName());
+        binding.currentWeightEt.setText(Integer.toString(data.getActualWeight()));
+        binding.heightEt.setText(Integer.toString(data.getHeight()));
+        binding.ageEt.setText(Integer.toString(data.getAge()));
+
+        switch (data.getActivityLvl()) {
+            case 0:
+                binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_1));
+                break;
+            case 1:
+                binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_2));
+                break;
+            case 2:
+                binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_3));
+                break;
+            case 3:
+                binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_4));
+                break;
+            case 4:
+                binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_5));
+                break;
+        }
+
+        if (data.getGender().equals(Constants.GENDER_M)) {
+            binding.mRb.setChecked(true);
+        } else {
+            binding.fRb.setChecked(true);
+        }
+
 
     }
 
@@ -116,11 +221,11 @@ public class ProfileActivity extends BaseActivity {
         pickAgeDialog.show();
     }
 
-    public void onSelectSports(View view){
+    public void onSelectSports(View view) {
         showOneChoiceDialog();
     }
 
-    public void showOneChoiceDialog(){
+    public void showOneChoiceDialog() {
 
         final CharSequence[] items = new CharSequence[Constants.NUMBER_OF_ACTIVITIES_TYPES];
         items[0] = getResources().getString(R.string.activity_lvl_1);
@@ -148,9 +253,9 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 alert.dismiss();
-                int selectedPosition =  alert.getListView().getCheckedItemPosition();
+                int selectedPosition = alert.getListView().getCheckedItemPosition();
                 selectedLvl = selectedPosition;
-                switch (selectedPosition){
+                switch (selectedPosition) {
                     case 0:
                         binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_1));
                         break;
@@ -167,7 +272,7 @@ public class ProfileActivity extends BaseActivity {
                         binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_5));
                         break;
                 }
-                binding.everyDaySportEt.setText(items[selectedPosition]);
+                // binding.everyDaySportEt.setText(items[selectedPosition]);
             }
         });
 
@@ -234,11 +339,12 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
 
-        if(InputValidator.isInputEmpty(activityType)){
+        if (InputValidator.isInputEmpty(activityType)) {
             showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.error_no_activity_type), DialogType.ERROR, null);
             return;
         }
 
+        viewModel.editProfileInfos(new ProfileInfos(name, Integer.parseInt(currentWeight), gender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl), ProfileActivity.this);
     }
 
     private void showUpdatePictureDialog() {

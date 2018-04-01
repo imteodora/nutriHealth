@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+
+        <variable
+            name="drawerItem"
+            type="com.nutrihealth.adapters.NavigationDrawerAdapter.DrawerItem" />
+
+        <variable
+            name="listener"
+            type="com.nutrihealth.listeners.DrawerItemListener" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/item_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:onClick="@{() -> ( listener.onDrawerItemPressed(drawerItem) )}">
+
+        <View
+            android:id="@+id/draweritem_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:background="@color/gray_light" />
+        <ImageView
+            android:id="@+id/draweritem_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:textColor="@color/gray_dark"
+            android:id="@+id/draweritem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/draweritem_image"
+            android:layout_centerVertical="true"
+            android:text="@{ drawerItem.stringResId}"/>
+
+
+    </RelativeLayout>
+</layout>

@@ -11,13 +11,15 @@ public class ProfileInfos {
     private String gender;
     private int height;
     private int age;
+    private int activityLvl;
 
-    public ProfileInfos(String name, int actualWeight, String gender, int height, int age) {
+    public ProfileInfos(String name, int actualWeight, String gender, int height, int age, int activityLvl) {
         this.name = name;
         this.actualWeight = actualWeight;
         this.gender = gender;
         this.height = height;
         this.age = age;
+        this.activityLvl = activityLvl;
     }
 
     public String getName() {
@@ -38,5 +40,9 @@ public class ProfileInfos {
 
     public int getAge() {
         return age;
+    }
+
+    public int getActivityLvl() {
+        return activityLvl;
     }
 }

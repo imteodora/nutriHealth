@@ -15,4 +15,6 @@ public class Constants {
     public final static double SPORT_ACTIVITY_LVL_3 = 1.55;
     public final static double SPORT_ACTIVITY_LVL_4 = 1.725;
     public final static double SPORT_ACTIVITY_LVL_5 = 1.9;
+
+    public final static String EDIT_INFO_CODE = "edit_info_code";
 }

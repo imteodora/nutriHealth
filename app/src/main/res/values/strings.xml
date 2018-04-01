@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NutriHealth</string>
     <string name="loading">Se incarca...</string>
+    <string name="success">Succes</string>
 
     <!-- Errors -->
     <string name="error_title">Eroare</string>
@@ -35,4 +36,11 @@
     <string name="lvl_3">Nivelul 3</string>
     <string name="lvl_4">Nivelul 4</string>
     <string name="lvl_5">Nivelul 5</string>
+    <string name="profile_infos_saved">Informatiile au fost salvate</string>
+
+    <!-- Home screen -->
+    <string name="edit_info">Editeaza informatiile</string>
+    <string name="alarms">Alarme</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

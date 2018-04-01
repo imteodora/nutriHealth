@@ -8,7 +8,7 @@ import com.nutrihealth.constants.Constants;
 
 public class WeightUtils {
 
-    private int calculateIdealWeight(int height, int age, String gender) {
+    public static int calculateIdealWeight(int height, int age, String gender) {
         double idealWeight = 0;
 
         if (gender.equals(Constants.GENDER_M)) {
@@ -22,7 +22,7 @@ public class WeightUtils {
         return (int) idealWeight;
     }
 
-    private int calculateCalPerDay(int height, int age, int idealWeight, String gender, double sport) {
+    public static int calculateCalPerDay(int height, int age, int idealWeight, String gender, double sport) {
         double idealCal = 0;
 
         if (gender.equals(Constants.GENDER_M)) {

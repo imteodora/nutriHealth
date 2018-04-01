@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.nutrihealth.R;
 import com.nutrihealth.base.BaseActivity;
+import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.utils.IntentStarter;
 
 public class SplashScreenActivity extends BaseActivity {
@@ -29,6 +30,11 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     private void goToNextScreen() {
-        IntentStarter.gotoProfileActivity(this, true);
+        if (PrefsManager.getInstance(SplashScreenActivity.this).isFirstLaunch()) {
+            IntentStarter.gotoProfileActivity(this, true);
+        } else {
+            IntentStarter.gotoHomeActivity(this, true);
+        }
+
     }
 }
