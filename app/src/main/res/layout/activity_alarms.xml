@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="com.nutrihealth.activities.AlarmsActivity.Alarms"/>
+
         <variable
             name="alarmsActivity"
-            type="com.nutrihealth.activities.AlarmsActivity"/>
+            type="com.nutrihealth.activities.AlarmsActivity" />
 
     </data>
 
     <RelativeLayout
-        android:background="@color/light_blue"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_light">
 
 
         <com.nutrihealth.views.CustomToolbar
@@ -23,13 +26,252 @@
             app:contentInsetStart="0dp"
             app:title="@string/alarms_title" />
 
-        <TextSwitcher
-            android:id="@+id/text_switcher"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/text_switcher_container"
             android:layout_below="@+id/alarms_toolbar"
-            android:layout_margin="@dimen/margin_medium"
-            android:layout_marginTop="20dp" />
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+            <TextSwitcher
+                android:id="@+id/text_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:background="@color/black"
+            android:layout_below="@+id/text_switcher_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_margin="@dimen/margin_small"
+
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/breakfast_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/breakfast"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <TextView
+                        android:onClick="@{() -> alarmsActivity.onSelectTimePressed(Alarms.BREAKFAST)}"
+                        android:id="@+id/breakfast_time_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toRightOf="@+id/breakfast_tv"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <Switch
+                        android:id="@+id/breakfast_sw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/light_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/first_snack_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/first_snack"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <TextView
+                        android:onClick="@{() -> alarmsActivity.onSelectTimePressed(Alarms.FIRST_SNACK)}"
+                        android:id="@+id/first_snack_time_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toRightOf="@+id/first_snack_tv"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <Switch
+                        android:id="@+id/first_snack_sw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/light_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/lunch_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/lunch"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <TextView
+                        android:onClick="@{() -> alarmsActivity.onSelectTimePressed(Alarms.LUNCH)}"
+                        android:id="@+id/lunch_time_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toRightOf="@+id/lunch_tv"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <Switch
+                        android:id="@+id/lunch_sw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/light_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/second_snack_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/second_snack"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <TextView
+                        android:onClick="@{() -> alarmsActivity.onSelectTimePressed(Alarms.SECOND_SNACK)}"
+                        android:id="@+id/second_snack_time_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toRightOf="@+id/second_snack_tv"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <Switch
+                        android:id="@+id/second_snack_sw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/light_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/dinner_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/diner"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <TextView
+                        android:onClick="@{() -> alarmsActivity.onSelectTimePressed(Alarms.DINER)}"
+                        android:id="@+id/diner_time_tv"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toRightOf="@+id/dinner_tv"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_big_1" />
+
+                    <Switch
+                        android:id="@+id/diner_sw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/light_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+
+
+
 
     </RelativeLayout>
 

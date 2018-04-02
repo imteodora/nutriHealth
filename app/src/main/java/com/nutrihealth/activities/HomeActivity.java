@@ -139,6 +139,9 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
             case ALARMS:
                 IntentStarter.gotoAlarmsActivity(HomeActivity.this, false);
                 break;
+            case PROFILE:
+                IntentStarter.gotoProfileActivityToEditInfo(HomeActivity.this, false);
+                break;
 
         }
         binding.drawerLayout.closeDrawer(Gravity.END);

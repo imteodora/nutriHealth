@@ -21,6 +21,20 @@ public class PrefsManager {
     private static final String KEY_IDEAL_WEIGHT = "key_ideal_weight";
     private static final String KEY_KCAL_PER_DAY = "key_kcal_per_day";
 
+    private static final String KEY_HAS_ALARM_BREAKFAST = "key_has_alarm_breakfast";
+    private static final String KEY_HAS_ALARM_FIRST_SNACK = "key_has_alarm_first_snack";
+    private static final String KEY_HAS_ALARM_LUNCH = "key_has_alarm_lunch";
+    private static final String KEY_HAS_ALARM_SECOND_SNACK = "key_has_alarm_second_snack";
+    private static final String KEY_HAS_ALARM_DINER = "key_has_alarm_diner";
+
+    private static final String KEY_ALARM_BREAKFAST = "key_alarm_breakfast";
+    private static final String KEY_ALARM_FIRST_SNACK = "key_alarm_first_snack";
+    private static final String KEY_ALARM_LUNCH = "key_alarm_lunch";
+    private static final String KEY_ALARM_SECOND_SNACK = "key_alarm_second_snack";
+    private static final String KEY_ALARM_DINER = "key_alarm_diner";
+
+
+
     private static PrefsManager instance = null;
     private SharedPreferences.Editor editor;
     private SharedPreferences sharedPreferences;
@@ -127,5 +141,49 @@ public class PrefsManager {
         return sharedPreferences.getInt(KEY_KCAL_PER_DAY, 0);
     }
 
+    public String getKeyAlarmBreakfast() {
+        return sharedPreferences.getString(KEY_ALARM_BREAKFAST, "");
+    }
+
+    public void putKeyAlarmBreakfast(String alarm) {
+        editor.putString(KEY_ALARM_BREAKFAST, alarm);
+        editor.commit();
+    }
+
+    public String getKeyAlarmFirstSnack() {
+        return sharedPreferences.getString(KEY_ALARM_FIRST_SNACK, "");
+    }
+
+    public void putKeyAlarmFirstSnack(String alarm) {
+        editor.putString(KEY_ALARM_FIRST_SNACK, alarm);
+        editor.commit();
+    }
+
+    public String getKeyAlarmLunch() {
+        return sharedPreferences.getString(KEY_ALARM_LUNCH, "");
+    }
+
+    public void putKeyAlarmLunch(String alarm) {
+        editor.putString(KEY_ALARM_LUNCH, alarm);
+        editor.commit();
+    }
+
+    public String getKeyAlarmSecondSnack() {
+        return sharedPreferences.getString(KEY_ALARM_SECOND_SNACK, "");
+    }
+
+    public void putKeyAlarmSecondSnack(String alarm) {
+        editor.putString(KEY_ALARM_SECOND_SNACK, alarm);
+        editor.commit();
+    }
+
+    public String getKeyAlarmDiner() {
+        return sharedPreferences.getString(KEY_ALARM_DINER, "");
+    }
+
+    public void putKeyAlarmDiner(String alarm) {
+        editor.putString(KEY_ALARM_DINER, alarm);
+        editor.commit();
+    }
 
 }

@@ -306,7 +306,6 @@ public class ProfileActivity extends BaseActivity {
                         binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_5));
                         break;
                 }
-                // binding.everyDaySportEt.setText(items[selectedPosition]);
             }
         });
 

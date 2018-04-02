@@ -41,6 +41,7 @@
     <!-- Home screen -->
     <string name="edit_info">Editeaza informatiile</string>
     <string name="alarms">Alarme</string>
+    <string name="profile">Profil</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="ideal_weight">Greutatea ideala:</string>
@@ -53,4 +54,9 @@
     <string name="alarms_text_1">Acum poti tine o dieta echilibrata cu mese la ore fixe</string>
     <string name="alarms_text_2">Nu iti mai face griji ca vei uita ora mesei</string>
     <string name="alarms_text_3">Seteaza-ti alarma pentru micul dejun, pranz si cina, cat si pentru gustarile dintre mese</string>
+    <string name="breakfast">Micul dejun</string>
+    <string name="first_snack">Gustarea 1</string>
+    <string name="lunch">Pranzul</string>
+    <string name="second_snack">Gustarea 2</string>
+    <string name="diner">Cina</string>
 </resources>
