@@ -16,5 +16,12 @@ public class Constants {
     public final static double SPORT_ACTIVITY_LVL_4 = 1.725;
     public final static double SPORT_ACTIVITY_LVL_5 = 1.9;
 
+    public final static int ALARM_BREAKFAST_CODE = 1;
+    public final static int ALARM_FIRST_SNACK_CODE = 2;
+    public final static int ALARM_LUNCH_CODE = 3;
+    public final static int ALARM_SECOND_SNACK_CODE = 4;
+    public final static int ALARM_DINER_CODE = 5;
+
+    public final static String REQUEST_CODE_FOR_ALARM = "request_code";
     public final static String EDIT_INFO_CODE = "edit_info_code";
 }
