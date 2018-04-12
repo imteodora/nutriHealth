@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Workspace\nutriHealth\app\app.iml" filepath="C:\Workspace\nutriHealth\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nutriHealth.iml" filepath="$PROJECT_DIR$/nutriHealth.iml" />
+      <module fileurl="file://C:\Workspace\nutriHealth\nutriHealth.iml" filepath="C:\Workspace\nutriHealth\nutriHealth.iml" />
     </modules>
   </component>
 </project>
