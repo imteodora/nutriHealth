@@ -62,4 +62,8 @@
     <string name="notification_title">Ora mesei</string>
     <string name="notification_text">Este timpul pentru a lua o mica pauza si a te bucura de masa</string>
 
+    <!-- Calories screen -->
+    <string name="today">Astazi</string>
+    <string name="history">Istoric</string>
+
 </resources>
