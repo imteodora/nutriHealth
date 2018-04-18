@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_container"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:id="@+id/calendar_iv"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icons8_calendar_96"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_toRightOf="@+id/calendar_iv"
+        android:layout_centerVertical="true"
+        android:id="@+id/date_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:text="15 Aprilie"
+        android:textColor="@color/gray_medium"
+        android:textSize="@dimen/text_medium_2"
+        fontPath="fonts/Raleway-Medium.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_toLeftOf="@+id/cal_tv"
+        android:id="@+id/warning_iv"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icons8_high_importance_96_red"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/cal_tv"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="2300 kcal"
+        android:textColor="@color/light_blue"
+        android:textSize="@dimen/text_big_2"
+        fontPath="fonts/Raleway-Medium.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/bottom_view"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_dark_bg"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</RelativeLayout>
