@@ -65,10 +65,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Ora mesei")
+                .setContentTitle(context.getResources().getString(R.string.notification_title))
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Este timpul pentru a lua o mica pauza si a te bucura de masa"))
-                .setContentText("Este timpul pentru a lua o mica pauza si a te bucura de masa")
+                        .bigText(context.getResources().getString(R.string.notification_text)))
+                .setContentText(context.getResources().getString(R.string.notification_title))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri);
 
