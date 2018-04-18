@@ -424,7 +424,7 @@ public class AlarmsActivity extends BaseActivity {
             public View makeView() {
                 TextView t = new TextView(AlarmsActivity.this);
                 t.setGravity(Gravity.TOP);
-                t.setTextColor(ContextCompat.getColor(AlarmsActivity.this, R.color.gray_dark));
+                t.setTextColor(ContextCompat.getColor(AlarmsActivity.this, R.color.white));
 
                 Typeface face = Typeface.createFromAsset(getAssets(),
                         "fonts/Raleway-Medium.ttf");

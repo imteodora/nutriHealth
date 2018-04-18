@@ -20,7 +20,7 @@
         android:layout_height="match_parent">
         <!-- Main content view -->
         <RelativeLayout
-            android:background="@color/black"
+            android:background="@color/gray_dark_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

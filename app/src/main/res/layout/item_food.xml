@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_dark_bg" />
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/product_name_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:text="Omleta"
+        android:textColor="@color/gray_dark"
+        android:textSize="@dimen/text_medium_2"
+        fontPath="fonts/Raleway-Medium.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/product_cal_tv"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="130 kcal"
+        android:textColor="@color/gray_dark"
+        android:textSize="@dimen/text_medium_2"
+        fontPath="fonts/Raleway-Medium.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

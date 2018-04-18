@@ -65,5 +65,8 @@
     <!-- Calories screen -->
     <string name="today">Astazi</string>
     <string name="history">Istoric</string>
+    <string name="calories_planner">Planificator calorii</string>
+    <string name="cancel">Renunta</string>
+    <string name="calories_number">Numarul de kcal</string>
 
 </resources>

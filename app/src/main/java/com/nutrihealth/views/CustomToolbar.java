@@ -63,4 +63,8 @@ public class CustomToolbar extends Toolbar {
             onBackButtonPressedListener.onBackButtonPressed();
         }
     }
+
+    public void showLogo(){
+        binding.setShowLogo(true);
+    }
 }

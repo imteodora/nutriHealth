@@ -11,6 +11,7 @@
     <color name="gray_light">#e6e6e6</color>
     <color name="gray_medium">#787878</color>
     <color name="gray_dark">#3d3d3b</color>
+    <color name="gray_dark_bg">#242D36</color>
     <color name="blue">#254f9a</color>
     <color name="light_blue">#AED5F3</color>
     <color name="red_dark">#bb051a</color>

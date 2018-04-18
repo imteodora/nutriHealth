@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.nutrihealth.R;
 import com.nutrihealth.activities.AlarmsActivity;
+import com.nutrihealth.activities.CaloriesHistoryActivity;
 import com.nutrihealth.activities.HomeActivity;
 import com.nutrihealth.activities.ProfileActivity;
 import com.nutrihealth.constants.Constants;
@@ -44,6 +45,14 @@ public class IntentStarter {
 
     public static void gotoAlarmsActivity(Context context, final boolean shouldClearAllPreviousScreens) {
         Intent intent = new Intent(context, AlarmsActivity.class);
+        if (shouldClearAllPreviousScreens) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void gotoCaloriesHistoryActivity(Context context, final boolean shouldClearAllPreviousScreens) {
+        Intent intent = new Intent(context, CaloriesHistoryActivity.class);
         if (shouldClearAllPreviousScreens) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         }

@@ -142,6 +142,9 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
             case PROFILE:
                 IntentStarter.gotoProfileActivityToEditInfo(HomeActivity.this, false);
                 break;
+            case HISTORY:
+                IntentStarter.gotoCaloriesHistoryActivity(HomeActivity.this,false);
+                break;
 
         }
         binding.drawerLayout.closeDrawer(Gravity.END);

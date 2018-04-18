@@ -23,7 +23,8 @@ public class NavigationDrawerAdapter extends ArrayAdapter {
 
     public enum DrawerItem {
         ALARMS(R.string.alarms, R.drawable.ic_account_circle_black_48dp),
-        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp);
+        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp),
+        HISTORY(R.string.calories_planner, R.drawable.ic_account_circle_black_48dp);
 
         private final int stringResId;
         private final int imageResId;
@@ -44,7 +45,8 @@ public class NavigationDrawerAdapter extends ArrayAdapter {
 
     public enum DrawerItemPressed {
         ALARMS(R.string.alarms, R.drawable.ic_account_circle_black_48dp),
-        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp);
+        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp),
+        HISTORY(R.string.calories_planner, R.drawable.ic_account_circle_black_48dp);;
 
         private final int stringResId;
         private final int imageResId;

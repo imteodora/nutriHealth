@@ -37,6 +37,7 @@
             />
 
         <LinearLayout
+            android:background="@color/gray_dark_bg"
             android:id="@+id/sections_calories"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/today"
-                    android:textColor="@{selectedSection == Section.TODAY ? @color/light_blue:@color/gray_medium}"
+                    android:textColor="@{selectedSection == Section.TODAY ? @color/light_blue:@color/white}"
                     android:textAllCaps="true"/>
                 <View
                     android:layout_width="match_parent"
@@ -73,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/history"
-                    android:textColor="@{selectedSection == Section.HISTORY ? @color/light_blue:@color/gray_medium}"
+                    android:textColor="@{selectedSection == Section.HISTORY ? @color/light_blue:@color/white}"
                     android:textAllCaps="true"/>
                 <View
                     android:layout_width="match_parent"
@@ -85,6 +86,7 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/fragments_container"
             android:background="@color/gray_light"
             android:layout_below="@+id/sections_calories"
             android:layout_width="match_parent"
