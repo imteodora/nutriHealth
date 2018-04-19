@@ -6,12 +6,25 @@ package com.nutrihealth.model;
 
 public class Product {
 
+    private int type;
     private String name;
     private String kcal;
+    private String date;
 
-    public Product(String name, String kcal) {
+
+    public Product(String name, String kcal,int type, String date) {
         this.name = name;
         this.kcal = kcal;
+        this.type = type;
+        this.date = date;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getName() {

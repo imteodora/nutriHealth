@@ -1,5 +1,7 @@
 package com.nutrihealth.fragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +14,15 @@ import android.view.ViewGroup;
 import com.nutrihealth.R;
 import com.nutrihealth.adapters.HistoryPlannerAdapter;
 import com.nutrihealth.adapters.TodayPlannerAdapter;
+import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.base.BaseFragment;
 import com.nutrihealth.databinding.FragmentHistoryBinding;
 import com.nutrihealth.model.HistoryDay;
 import com.nutrihealth.model.Product;
+import com.nutrihealth.prefs.PrefsManager;
+import com.nutrihealth.repository.Resource;
+import com.nutrihealth.viewModels.HistoryViewModel;
+import com.nutrihealth.viewModels.TodayViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +33,17 @@ import java.util.List;
 
 public class HistoryListFragment extends BaseFragment {
     private FragmentHistoryBinding binding;
+    private HistoryViewModel viewModel;
     private HistoryPlannerAdapter adapter;
     private List<HistoryDay> historyDayList;
 
     public static final String TAG = "HistoryFragment";
+
     @Override
     public String getFragmentTag() {
         return TAG;
     }
-    
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,26 +55,38 @@ public class HistoryListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setHistoryFragment(this);
-        setUpViews();
+        viewModel = ViewModelProviders.of(HistoryListFragment.this).get(HistoryViewModel.class);
 
 
+        listenForLiveData();
+        viewModel.sendGetHistoryRequest();
+
+
+    }
+
+    private void listenForLiveData() {
+
+        viewModel.getHistoryLiveData().observe(HistoryListFragment.this, new Observer<Resource<List<HistoryDay>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<HistoryDay>> listResource) {
+                if (listResource.getState() == Resource.State.LOADING) {
+                } else if (listResource.getState() == Resource.State.ERROR) {
+                    showCustomDialog(getResources().getString(R.string.error_title), "", BaseActivity.DialogType.ERROR, null);
+                } else if (listResource.getState() == Resource.State.SUCCESS) {
+                    setUpRecyclerView(listResource.getData());
+                }
+            }
+        });
     }
 
     private void setUpViews() {
 
-        setUpRecyclerView();
     }
 
-    private void setUpRecyclerView() {
+    private void setUpRecyclerView(List<HistoryDay> historyDayList) {
 
-        historyDayList = new ArrayList<>();
-        historyDayList.add(new HistoryDay("date","1800"));
-        historyDayList.add(new HistoryDay("date","2000"));
-        historyDayList.add(new HistoryDay("date","1700"));
-        historyDayList.add(new HistoryDay("date","1500"));
-        historyDayList.add(new HistoryDay("date","2200"));
-
-        adapter = new HistoryPlannerAdapter(getActivity(),historyDayList,"1900");
+        int perKcal = PrefsManager.getInstance(getContext()).getKeyKcalPerDay();
+        adapter = new HistoryPlannerAdapter(getActivity(), historyDayList, perKcal + "");
         RecyclerView.LayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.historyRv.setLayoutManager(llm);
         binding.historyRv.setAdapter(adapter);

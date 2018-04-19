@@ -64,9 +64,12 @@
 
     <!-- Calories screen -->
     <string name="today">Astazi</string>
+    <string name="yesterday">Ieri</string>
     <string name="history">Istoric</string>
     <string name="calories_planner">Planificator calorii</string>
     <string name="cancel">Renunta</string>
     <string name="calories_number">Numarul de kcal</string>
+    <string name="you_have">Mai poti consuma</string>
+    <string name="you_exceed">Ai depasit numarul permis cu</string>
 
 </resources>

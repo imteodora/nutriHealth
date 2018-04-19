@@ -3,6 +3,7 @@ package com.nutrihealth.adapters;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -33,7 +34,8 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int FOOTER_VIEW_TYPE = 3;
 
     private Context context;
-    private String allKcal = "";
+    private int allKcal = 0;
+    private int permKcal = 0;
     private boolean isFirstTime = true;
     private AddProductListener listener;
     private List<Product> breakfastList;
@@ -47,7 +49,7 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void onAddProductButtonPrssed(TodayListFragment.MealsSection section);
     }
 
-    public TodayPlannerAdapter(Context context, List<Product> breakfastList, List<Product> firstSnackList, List<Product> lunchList, List<Product> secondSnackList, List<Product> dinnerList, String allKcal) {
+    public TodayPlannerAdapter(Context context, List<Product> breakfastList, List<Product> firstSnackList, List<Product> lunchList, List<Product> secondSnackList, List<Product> dinnerList, int allKcal, int permKcal) {
         this.context = context;
         this.breakfastList = breakfastList;
         this.firstSnackList = firstSnackList;
@@ -55,6 +57,7 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.secondSnackList = secondSnackList;
         this.dinnerList = dinnerList;
         this.allKcal = allKcal;
+        this.permKcal = permKcal;
     }
 
     public void setAddProductListener(AddProductListener listener) {
@@ -64,12 +67,14 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class FirstCellViewHolder extends RecyclerView.ViewHolder {
 
         TextView allKcalTv;
+        TextView titleTv;
         ProgressBar progressBar;
 
         public FirstCellViewHolder(View itemView) {
             super(itemView);
             allKcalTv = itemView.findViewById(R.id.nr_kcal_remaining_tv);
             progressBar = itemView.findViewById(R.id.progressBar);
+            titleTv = itemView.findViewById(R.id.title_tv);
         }
     }
 
@@ -105,7 +110,7 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void updateLists(List<Product> list1, List<Product> list2, List<Product> list3, List<Product> list4, List<Product> list5, String allKcal) {
+    public void updateLists(List<Product> list1, List<Product> list2, List<Product> list3, List<Product> list4, List<Product> list5, int allKcal, int permKcal) {
 
         breakfastList = new ArrayList<>();
         breakfastList = list1;
@@ -123,6 +128,7 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         dinnerList = list5;
 
         this.allKcal = allKcal;
+        this.permKcal = permKcal;
         notifyDataSetChanged();
     }
 
@@ -152,16 +158,34 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (holder.getItemViewType()) {
             case FIRST_CELL_VIEW_TYPE:
                 final FirstCellViewHolder firstCellViewHolder = (FirstCellViewHolder) holder;
-                firstCellViewHolder.allKcalTv.setText(allKcal + " kcal");
-                if (isFirstTime) {
-                    ObjectAnimator progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0, 80);
-                    progressAnimator.setDuration(3000);
-                    progressAnimator.setInterpolator(new LinearInterpolator());
-                    progressAnimator.start();
-                    isFirstTime = false;
-                } else {
-                    firstCellViewHolder.progressBar.setProgress(80);
+                int remaingKcal = permKcal - allKcal;
+                if(remaingKcal < 0){
+                    firstCellViewHolder.allKcalTv.setText((remaingKcal * -1) + " kcal");
+                    firstCellViewHolder.allKcalTv.setTextColor(ContextCompat.getColor(context,R.color.red_dark));
+                    firstCellViewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(context,R.drawable.circle_progress_foreground_red));
+                    firstCellViewHolder.progressBar.setProgress(100);
+                    firstCellViewHolder.titleTv.setText(context.getResources().getString(R.string.you_exceed));
+                    firstCellViewHolder.titleTv.setTextColor(ContextCompat.getColor(context,R.color.red_dark));
+                }else{
+                    firstCellViewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(context,R.drawable.circle_progress_foreground));
+                    firstCellViewHolder.allKcalTv.setText(remaingKcal + " kcal");
+                    firstCellViewHolder.allKcalTv.setTextColor(ContextCompat.getColor(context,R.color.light_blue));
+                    firstCellViewHolder.titleTv.setText(context.getResources().getString(R.string.you_have));
+                    firstCellViewHolder.titleTv.setTextColor(ContextCompat.getColor(context,R.color.light_blue));
+                    double percentage = ( (double) allKcal/ (double) permKcal)*100.0;
+                    if (isFirstTime) {
+                        ObjectAnimator progressAnimator;
+                        progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0,(int) percentage);
+                        progressAnimator.setDuration(5000);
+                        progressAnimator.setInterpolator(new LinearInterpolator());
+                        progressAnimator.start();
+                        isFirstTime = false;
+                    } else {
+                        firstCellViewHolder.progressBar.setProgress((int) percentage);
+                    }
                 }
+
+
                 break;
 
             case HEADER_VIEW_TYPE:

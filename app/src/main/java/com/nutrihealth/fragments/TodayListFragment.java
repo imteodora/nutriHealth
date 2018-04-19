@@ -1,6 +1,7 @@
 package com.nutrihealth.fragments;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,12 +24,21 @@ import android.widget.RadioGroup;
 import com.nutrihealth.R;
 import com.nutrihealth.activities.ProfileActivity;
 import com.nutrihealth.adapters.TodayPlannerAdapter;
+import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.base.BaseFragment;
 import com.nutrihealth.databinding.FragmentTodayBinding;
+import com.nutrihealth.model.BaseResponse;
 import com.nutrihealth.model.Product;
+import com.nutrihealth.prefs.PrefsManager;
+import com.nutrihealth.repository.Resource;
 import com.nutrihealth.utils.InputValidator;
+import com.nutrihealth.viewModels.ProfileViewModel;
+import com.nutrihealth.viewModels.TodayViewModel;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,13 +48,10 @@ import java.util.List;
 public class TodayListFragment extends BaseFragment implements TodayPlannerAdapter.AddProductListener {
 
     private FragmentTodayBinding binding;
+    private TodayViewModel viewModel;
     TodayPlannerAdapter adapter;
-
-    List<Product> breakfastList = new ArrayList<>();
-    List<Product> firstSnackList = new ArrayList<>();
-    List<Product> lunchList = new ArrayList<>();
-    List<Product> secondSnackList = new ArrayList<>();
-    List<Product> dinnerList = new ArrayList<>();
+    private int perKcal = 0;
+    private boolean firstTime = true;
 
 
     public static final String TAG = "TodayFragment";
@@ -59,17 +66,17 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         addProductDialog.setContentView(R.layout.dialog_add_product);
 
         Button saveBtn = addProductDialog.findViewById(R.id.choose_button);
-        Button canceBtn =  addProductDialog.findViewById(R.id.cancel_button);
+        Button canceBtn = addProductDialog.findViewById(R.id.cancel_button);
         final RadioGroup mealRg = addProductDialog.findViewById(R.id.meal_group);
         RadioButton breackfastRb = addProductDialog.findViewById(R.id.breakfast_rb);
         RadioButton firstSnackRb = addProductDialog.findViewById(R.id.first_snack_rb);
         final RadioButton lunchRb = addProductDialog.findViewById(R.id.lunch_rb);
         final RadioButton secondSnackRb = addProductDialog.findViewById(R.id.second_snack_rb);
         RadioButton dinerRb = addProductDialog.findViewById(R.id.diner_rb);
-        final TextInputEditText productNameEt =  addProductDialog.findViewById(R.id.product_name_et);
-        final TextInputEditText calEt =  addProductDialog.findViewById(R.id.cal_number_et);
+        final TextInputEditText productNameEt = addProductDialog.findViewById(R.id.product_name_et);
+        final TextInputEditText calEt = addProductDialog.findViewById(R.id.cal_number_et);
 
-        switch (section){
+        switch (section) {
             case BREAKFAST:
                 breackfastRb.setChecked(true);
                 break;
@@ -104,11 +111,11 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
                 String productName = productNameEt.getText().toString();
                 String calNr = calEt.getText().toString();
 
-                if(InputValidator.isInputEmpty(productName)){
+                if (InputValidator.isInputEmpty(productName)) {
                     productNameEt.setError(getResources().getString(R.string.error_no_input));
                     return;
                 }
-                if(InputValidator.isInputEmpty(calNr)){
+                if (InputValidator.isInputEmpty(calNr)) {
                     calEt.setError(getResources().getString(R.string.error_no_input));
                     return;
                 }
@@ -117,27 +124,25 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
                 View radioButton = mealRg.findViewById(idRadioButton);
                 int idx = mealRg.indexOfChild(radioButton);
 
-                switch (idx){
+                switch (idx) {
                     case 0:
-                        breakfastList.add(new Product(productName,calNr));
+                        viewModel.addProduct(new Product(productName, calNr, 0, getTodayInFOrmat()));
                         break;
                     case 1:
-                        firstSnackList.add(new Product(productName,calNr));
+                        viewModel.addProduct(new Product(productName, calNr, 1, getTodayInFOrmat()));
                         break;
                     case 2:
-                        lunchList.add(new Product(productName,calNr));
+                        viewModel.addProduct(new Product(productName, calNr, 2, getTodayInFOrmat()));
                         break;
                     case 3:
-                        secondSnackList.add(new Product(productName,calNr));
+                        viewModel.addProduct(new Product(productName, calNr, 3, getTodayInFOrmat()));
                         break;
                     case 4:
-                        dinnerList.add(new Product(productName,calNr));
+                        viewModel.addProduct(new Product(productName, calNr, 4, getTodayInFOrmat()));
                         break;
                 }
 
-                updateLists();
                 addProductDialog.dismiss();
-
 
 
             }
@@ -151,8 +156,38 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         addProductDialog.show();
     }
 
-    private void updateLists() {
-        adapter.updateLists(breakfastList,firstSnackList,lunchList,secondSnackList,dinnerList,"1800");
+    private void updateLists(List<Product> productList) {
+
+        List<Product> breakfastList = new ArrayList<>();
+        List<Product> firstSnackList = new ArrayList<>();
+        List<Product> lunchList = new ArrayList<>();
+        List<Product> secondSnackList = new ArrayList<>();
+        List<Product> dinnerList = new ArrayList<>();
+
+        int allKcal = 0;
+
+        for (Product p : productList) {
+            int cal = Integer.parseInt(p.getKcal());
+            allKcal += cal;
+            switch (p.getType()) {
+                case 0:
+                    breakfastList.add(p);
+                    break;
+                case 1:
+                    firstSnackList.add(p);
+                    break;
+                case 2:
+                    lunchList.add(p);
+                    break;
+                case 3:
+                    secondSnackList.add(p);
+                    break;
+                case 4:
+                    dinnerList.add(p);
+                    break;
+            }
+        }
+        adapter.updateLists(breakfastList, firstSnackList, lunchList, secondSnackList, dinnerList, allKcal ,perKcal);
     }
 
     public enum MealsSection {
@@ -162,6 +197,7 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         SECOND_SNACK,
         DINNER
     }
+
     @Override
     public String getFragmentTag() {
         return TAG;
@@ -178,36 +214,94 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setTodayFragment(this);
+        viewModel = ViewModelProviders.of(TodayListFragment.this).get(TodayViewModel.class);
+        perKcal = PrefsManager.getInstance(getContext()).getKeyKcalPerDay();
+
+        listenToLiveData();
+
+        viewModel.getAllProductsForToday(getTodayInFOrmat());
         setUpViews();
 
 
     }
 
-    private void setUpViews() {
+    private void listenToLiveData() {
 
+        viewModel.getTodayHistoryLiveData().observe(TodayListFragment.this, new Observer<Resource<List<Product>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<Product>> listResource) {
+                if (listResource.getState() == Resource.State.LOADING) {
+                } else if (listResource.getState() == Resource.State.ERROR) {
+                    showCustomDialog(getResources().getString(R.string.error_title), "", BaseActivity.DialogType.ERROR, null);
+                } else if (listResource.getState() == Resource.State.SUCCESS) {
+                    if(firstTime){
+                        setUpRecyclerView(listResource.getData());
+                        firstTime = false;
+                        return;
+                    }
+                    updateLists(listResource.getData());
 
-        setUpRecyclerView();
+                }
+            }
+        });
+
+        viewModel.getSetProductLiveData().observe(TodayListFragment.this, new Observer<Resource<BaseResponse>>() {
+            @Override
+            public void onChanged(@Nullable Resource<BaseResponse> baseResponseResource) {
+                if (baseResponseResource.getState() == Resource.State.LOADING) {
+                } else if (baseResponseResource.getState() == Resource.State.ERROR) {
+                    showCustomDialog(getResources().getString(R.string.error_title), "", BaseActivity.DialogType.ERROR, null);
+                } else if (baseResponseResource.getState() == Resource.State.SUCCESS) {
+                    showCustomDialog(getResources().getString(R.string.success), baseResponseResource.getData().getMessage(), BaseActivity.DialogType.SUCCESS, null);
+
+                    viewModel.getAllProductsForToday(getTodayInFOrmat());
+                }
+            }
+        });
     }
 
-    private void setUpRecyclerView() {
-        breakfastList.add(new Product("omleta","150"));
-        breakfastList.add(new Product("capsuni","70"));
-        breakfastList.add(new Product("shaorma","800"));
+    private String getTodayInFOrmat() {
+        Format formatter = new SimpleDateFormat("dd-MMM-yy");
+        String today = formatter.format(new Date());
+        return today;
+    }
 
-        firstSnackList.add(new Product("omleta","150"));
-        firstSnackList.add(new Product("capsuni","70"));
-        firstSnackList.add(new Product("shaorma","800"));
+    private void setUpViews() {
 
+    }
 
-        secondSnackList.add(new Product("omleta","150"));
-        secondSnackList.add(new Product("capsuni","70"));
-        secondSnackList.add(new Product("shaorma","800"));
+    private void setUpRecyclerView(List<Product> productList) {
+        List<Product> breakfastList = new ArrayList<>();
+        List<Product> firstSnackList = new ArrayList<>();
+        List<Product> lunchList = new ArrayList<>();
+        List<Product> secondSnackList = new ArrayList<>();
+        List<Product> dinnerList = new ArrayList<>();
 
-        dinnerList.add(new Product("omleta","150"));
-        dinnerList.add(new Product("capsuni","70"));
-        dinnerList.add(new Product("shaorma","800"));
+        int allKcal = 0;
 
-        adapter = new TodayPlannerAdapter(getContext(),breakfastList,firstSnackList,lunchList,secondSnackList,dinnerList,"1800");
+        for (Product p : productList) {
+            int cal = Integer.parseInt(p.getKcal());
+            allKcal += cal;
+            switch (p.getType()) {
+                case 0:
+                    breakfastList.add(p);
+                    break;
+                case 1:
+                    firstSnackList.add(p);
+                    break;
+                case 2:
+                    lunchList.add(p);
+                    break;
+                case 3:
+                    secondSnackList.add(p);
+                    break;
+                case 4:
+                    dinnerList.add(p);
+                    break;
+            }
+        }
+
+        adapter = new TodayPlannerAdapter(getContext(), breakfastList, firstSnackList, lunchList, secondSnackList, dinnerList, allKcal ,perKcal);
         adapter.setAddProductListener(this);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.productsRv.setLayoutManager(llm);

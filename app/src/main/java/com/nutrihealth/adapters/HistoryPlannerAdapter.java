@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.nutrihealth.R;
 import com.nutrihealth.model.HistoryDay;
 
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,22 +61,43 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
             }
         }
 
-        Date c = Calendar.getInstance().getTime();
+        if (historyDayList.size() == 1) {
+            viewHolder.historyContainer.setBackground(ContextCompat.getDrawable(context, R.drawable.white_bk_small_rounded_corners));
+        }
 
-        SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy", new Locale("ro"));
-        String formattedDate = df.format(c);
-        viewHolder.dateTv.setText(formattedDate);
+        if (getTodayInFOrmat().equals(historyDayList.get(position).getDate())) {
+            viewHolder.dateTv.setText(context.getResources().getString(R.string.today));
+        } else {
+            if (getYesterdayInFormat().equals(historyDayList.get(position).getDate())) {
+                viewHolder.dateTv.setText(context.getResources().getString(R.string.yesterday));
+            } else {
+                DateFormat format = new SimpleDateFormat("dd-MMM-yy", new Locale("ro"));
+                Date date = null;
+                try {
+                    date = format.parse(historyDayList.get(position).getDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy", new Locale("ro"));
+                String formattedDate = df.format(date);
+                viewHolder.dateTv.setText(formattedDate);
+            }
+
+        }
+
+
         viewHolder.calTv.setText(historyDayList.get(position).getKcal() + " kcal");
 
         int dayCal = Integer.parseInt(historyDayList.get(position).getKcal());
         int idealCalInt = Integer.parseInt(idealCal);
 
-        if(dayCal > idealCalInt){
+        if (dayCal > idealCalInt) {
             viewHolder.warningIv.setVisibility(View.VISIBLE);
-            viewHolder.calTv.setTextColor(ContextCompat.getColor(context,R.color.red_dark));
-        }else{
+            viewHolder.calTv.setTextColor(ContextCompat.getColor(context, R.color.red_dark));
+        } else {
             viewHolder.warningIv.setVisibility(View.GONE);
-            viewHolder.calTv.setTextColor(ContextCompat.getColor(context,R.color.light_blue));
+            viewHolder.calTv.setTextColor(ContextCompat.getColor(context, R.color.light_blue));
         }
 
     }
@@ -101,5 +125,18 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
             historyContainer = itemView.findViewById(R.id.parent_container);
 
         }
+    }
+
+    private String getTodayInFOrmat() {
+        Format formatter = new SimpleDateFormat("dd-MMM-yy");
+        String today = formatter.format(new Date());
+        return today;
+    }
+
+    private String getYesterdayInFormat() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
     }
 }

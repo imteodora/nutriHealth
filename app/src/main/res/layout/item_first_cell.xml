@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@android:color/transparent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_small"
+        android:id="@+id/title_tv"
+        fontPath="fonts/Raleway-Medium.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/you_have"
+        android:textColor="@color/light_blue"
+        android:textSize="@dimen/text_medium_2" />
+
     <RelativeLayout
+        android:layout_below="@+id/title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
-            android:layout_centerInParent="true"
             android:id="@+id/nr_kcal_remaining_tv"
+            fontPath="fonts/Raleway-Medium.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_margin="@dimen/margin_medium"
             android:text="1500kcal"
             android:textColor="@color/light_blue"
-            android:textSize="@dimen/text_big_3"
-            fontPath="fonts/Raleway-Medium.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/text_big_3" />
 
         <ProgressBar
-            android:layout_centerInParent="true"
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="190dp"
             android:layout_height="190dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/circle_progress_background"
             android:indeterminate="false"
             android:max="100"
