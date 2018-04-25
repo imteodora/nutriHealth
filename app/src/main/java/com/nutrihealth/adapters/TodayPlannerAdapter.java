@@ -157,13 +157,20 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case FIRST_CELL_VIEW_TYPE:
+
                 final FirstCellViewHolder firstCellViewHolder = (FirstCellViewHolder) holder;
+                firstCellViewHolder.progressBar.setVisibility(View.VISIBLE);
+                firstCellViewHolder.progressBar.setBackground(ContextCompat.getDrawable(context,R.drawable.circle_progress_background));
                 int remaingKcal = permKcal - allKcal;
                 if(remaingKcal < 0){
                     firstCellViewHolder.allKcalTv.setText((remaingKcal * -1) + " kcal");
                     firstCellViewHolder.allKcalTv.setTextColor(ContextCompat.getColor(context,R.color.red_dark));
                     firstCellViewHolder.progressBar.setProgressDrawable(ContextCompat.getDrawable(context,R.drawable.circle_progress_foreground_red));
-                    firstCellViewHolder.progressBar.setProgress(100);
+                    ObjectAnimator progressAnimator;
+                    progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0,100);
+                    progressAnimator.setDuration(500);
+                    progressAnimator.setInterpolator(new LinearInterpolator());
+                    progressAnimator.start();
                     firstCellViewHolder.titleTv.setText(context.getResources().getString(R.string.you_exceed));
                     firstCellViewHolder.titleTv.setTextColor(ContextCompat.getColor(context,R.color.red_dark));
                 }else{
@@ -173,16 +180,26 @@ public class TodayPlannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     firstCellViewHolder.titleTv.setText(context.getResources().getString(R.string.you_have));
                     firstCellViewHolder.titleTv.setTextColor(ContextCompat.getColor(context,R.color.light_blue));
                     double percentage = ( (double) allKcal/ (double) permKcal)*100.0;
-                    if (isFirstTime) {
+                    ObjectAnimator progressAnimator;
+                    progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0,(int) percentage);
+                    progressAnimator.setDuration(500);
+                    progressAnimator.setInterpolator(new LinearInterpolator());
+                    progressAnimator.start();
+                   /* if (isFirstTime) {
                         ObjectAnimator progressAnimator;
                         progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0,(int) percentage);
-                        progressAnimator.setDuration(5000);
+                        progressAnimator.setDuration(500);
                         progressAnimator.setInterpolator(new LinearInterpolator());
                         progressAnimator.start();
                         isFirstTime = false;
                     } else {
-                        firstCellViewHolder.progressBar.setProgress((int) percentage);
-                    }
+                        ObjectAnimator progressAnimator;
+                        progressAnimator = ObjectAnimator.ofInt(firstCellViewHolder.progressBar, "progress", 0,(int) percentage);
+                        progressAnimator.setDuration(500);
+                        progressAnimator.setInterpolator(new LinearInterpolator());
+                        progressAnimator.start();
+                       //
+                    } */
                 }
 
 

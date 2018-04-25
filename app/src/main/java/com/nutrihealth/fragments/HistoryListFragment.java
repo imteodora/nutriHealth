@@ -25,6 +25,7 @@ import com.nutrihealth.viewModels.HistoryViewModel;
 import com.nutrihealth.viewModels.TodayViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -85,6 +86,7 @@ public class HistoryListFragment extends BaseFragment {
 
     private void setUpRecyclerView(List<HistoryDay> historyDayList) {
 
+        Collections.reverse(historyDayList);
         int perKcal = PrefsManager.getInstance(getContext()).getKeyKcalPerDay();
         adapter = new HistoryPlannerAdapter(getActivity(), historyDayList, perKcal + "");
         RecyclerView.LayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
