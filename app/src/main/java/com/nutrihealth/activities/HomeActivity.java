@@ -2,6 +2,7 @@ package com.nutrihealth.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,6 +114,12 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
     public void onEditInfoPressed(View view){
         IntentStarter.gotoProfileActivityToEditInfo(HomeActivity.this, false);
+    }
+
+    public void onTestButtonPressed(View view){
+        Intent intent = new Intent(HomeActivity.this, TestActivity.class);
+        startActivity(intent);
+
     }
 
     public void onMenuButtonPressed(View view){

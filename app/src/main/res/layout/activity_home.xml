@@ -167,6 +167,13 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <Button
+                    android:onClick="@{homeActivity::onTestButtonPressed}"
+                    android:text="Test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"/>
+
 
 
             </RelativeLayout>
