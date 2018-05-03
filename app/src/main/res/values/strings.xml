@@ -12,6 +12,9 @@
     <string name="error_no_height">Completeaza inaltimea</string>
     <string name="error_no_age">Completeaza varsta</string>
     <string name="error_no_activity_type">Completeaza tipul activitatii</string>
+    <string name="error_invalid_email">Adresa de email invalida</string>
+    <string name="error_no_password">Completeaza parola</string>
+    <string name="error_confirmation_pass">Parola nu coincide</string>
 
     <!-- Profile screen -->
     <string name="personal_data">Date personale</string>
@@ -71,5 +74,14 @@
     <string name="calories_number">Numarul de kcal</string>
     <string name="you_have">Mai poti consuma</string>
     <string name="you_exceed">Ai depasit numarul permis cu</string>
+
+    <!-- Register screen -->
+    <string name="register">Inregistrare</string>
+    <string name="email">Adresa de email</string>
+    <string name="password">Parola</string>
+    <string name="password_confirmation">Confirma parola</string>
+    <string name="login">Intra in cont</string>
+    <string name="no_account">Nu ai cont?</string>
+
 
 </resources>

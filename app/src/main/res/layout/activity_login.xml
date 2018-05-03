@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loginActivity"
+            type="com.nutrihealth.activities.LoginActivity" />
+
+        <variable
+            name="showProgressBar"
+            type="boolean" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/login_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_dark_bg">
+
+        <com.nutrihealth.views.CustomToolbar
+            android:id="@+id/login_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            app:contentInsetStart="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/no_account_tv"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_bg_rounnded_corners_2"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/email_et"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_height"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="@dimen/text_medium_2" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/password_et"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_height"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="@dimen/text_medium_2" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/buttons_bg"
+                android:onClick="@{loginActivity::onLoginButtonPressed}"
+                android:text="@string/login"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <TextView
+            android:onClick="@{loginActivity::onNoAccountPressed}"
+            android:padding="@dimen/text_small_2"
+            android:id="@+id/no_account_tv"
+            fontPath="fonts/Raleway-Medium.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/no_account"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_small_2" />
+
+
+    </RelativeLayout>
+</layout>

@@ -8,7 +8,9 @@ import com.nutrihealth.R;
 import com.nutrihealth.activities.AlarmsActivity;
 import com.nutrihealth.activities.CaloriesHistoryActivity;
 import com.nutrihealth.activities.HomeActivity;
+import com.nutrihealth.activities.LoginActivity;
 import com.nutrihealth.activities.ProfileActivity;
+import com.nutrihealth.activities.RegisterActivity;
 import com.nutrihealth.constants.Constants;
 
 /**
@@ -53,6 +55,22 @@ public class IntentStarter {
 
     public static void gotoCaloriesHistoryActivity(Context context, final boolean shouldClearAllPreviousScreens) {
         Intent intent = new Intent(context, CaloriesHistoryActivity.class);
+        if (shouldClearAllPreviousScreens) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void gotoRegisterActivity(Context context, final boolean shouldClearAllPreviousScreens) {
+        Intent intent = new Intent(context, RegisterActivity.class);
+        if (shouldClearAllPreviousScreens) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void gotoLoginActivity(Context context, final boolean shouldClearAllPreviousScreens) {
+        Intent intent = new Intent(context, LoginActivity.class);
         if (shouldClearAllPreviousScreens) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         }

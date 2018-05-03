@@ -33,7 +33,7 @@ public class SplashScreenActivity extends BaseActivity {
         if (PrefsManager.getInstance(SplashScreenActivity.this).isFirstLaunch()) {
             IntentStarter.gotoProfileActivity(this, true);
         } else {
-            IntentStarter.gotoHomeActivity(this, true);
+            IntentStarter.gotoLoginActivity(this, true);
         }
 
     }
