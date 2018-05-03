@@ -31,6 +31,7 @@ import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.constants.Constants;
 import com.nutrihealth.databinding.ActivityProfileBinding;
 import com.nutrihealth.databinding.ActivityRegisterBinding;
+import com.nutrihealth.model.Alarm;
 import com.nutrihealth.model.ProfileInfos;
 import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.utils.FontUtils;
@@ -347,6 +348,7 @@ public class RegisterActivity extends BaseActivity {
 
         //build child
         mDatabase.child("users").child(user.getUid()).setValue(profileInfos);
+        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm("0","0","0","0","0"));
         finish();
     }
 }

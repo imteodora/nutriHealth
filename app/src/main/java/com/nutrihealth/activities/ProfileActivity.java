@@ -182,6 +182,7 @@ public class ProfileActivity extends BaseActivity {
         binding.heightEt.setText(Integer.toString(data.getHeight()));
         binding.ageEt.setText(Integer.toString(data.getAge()));
 
+        selectedLvl = data.getActivityLvl();
         switch (data.getActivityLvl()) {
             case 0:
                 binding.everyDaySportEt.setText(getResources().getString(R.string.lvl_1));

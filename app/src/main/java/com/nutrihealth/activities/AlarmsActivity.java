@@ -38,12 +38,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nutrihealth.R;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.broadcastReceivers.AlarmBroadcastReceiver;
 import com.nutrihealth.constants.Constants;
 import com.nutrihealth.databinding.ActivityAlarmsBinding;
+import com.nutrihealth.model.Alarm;
+import com.nutrihealth.model.ProfileInfos;
 import com.nutrihealth.prefs.PrefsManager;
+import com.nutrihealth.repository.Resource;
 import com.nutrihealth.utils.InputValidator;
 import com.nutrihealth.views.CustomToolbar;
 
@@ -67,11 +77,22 @@ public class AlarmsActivity extends BaseActivity {
     }
 
     private ActivityAlarmsBinding binding;
+    private DatabaseReference mDatabase;
+    private FirebaseUser user;
+
+    private String breakfastAlarm = "0";
+    private String firstSnackAlarm = "0";
+    private String lunchAlarm = "0";
+    private String secondSnackAlarm = "0";
+    private String dinnerAlarm = "0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(AlarmsActivity.this, R.layout.activity_alarms);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         setUpViews();
     }
 
@@ -88,7 +109,7 @@ public class AlarmsActivity extends BaseActivity {
 
         setCurrentTestWatcher();
         startTextAnimation();
-        populateFields();
+        getUserAlarms();
         setColorsToSwitches();
 
 
@@ -141,35 +162,39 @@ public class AlarmsActivity extends BaseActivity {
 
     }
 
-    private void populateFields() {
+    private void populateFields(Alarm alarm){
+        String alarmBreackfast = alarm.getBreakfast();
+        String alarmFirstSnack = alarm.getFirstSnack();
+        String alarmLunch = alarm.getLunch();
+        String alarmSecondSnack = alarm.getSecondSnack();
+        String alarmDiner = alarm.getDinner();
 
-        String alarmBreackfast = PrefsManager.getInstance(AlarmsActivity.this).getKeyAlarmBreakfast();
-        String alarmFirstSnack = PrefsManager.getInstance(AlarmsActivity.this).getKeyAlarmFirstSnack();
-        String alarmLunch = PrefsManager.getInstance(AlarmsActivity.this).getKeyAlarmLunch();
-        String alarmSecondSnack = PrefsManager.getInstance(AlarmsActivity.this).getKeyAlarmSecondSnack();
-        String alarmDiner = PrefsManager.getInstance(AlarmsActivity.this).getKeyAlarmDiner();
-
-        if (!alarmBreackfast.equals("")) {
+        if (!alarmBreackfast.equals("0")) {
             binding.breakfastTimeTv.setText(alarmBreackfast);
+            breakfastAlarm = alarmBreackfast;
             binding.breakfastSw.setChecked(true);
         }
 
-        if (!alarmFirstSnack.equals("")) {
+        if (!alarmFirstSnack.equals("0")) {
             binding.firstSnackTimeTv.setText(alarmFirstSnack);
+            firstSnackAlarm = alarmFirstSnack;
             binding.firstSnackSw.setChecked(true);
         }
 
-        if (!alarmLunch.equals("")) {
+        if (!alarmLunch.equals("0")) {
             binding.lunchTimeTv.setText(alarmLunch);
+            lunchAlarm = alarmLunch;
             binding.lunchSw.setChecked(true);
         }
-        if (!alarmSecondSnack.equals("")) {
+        if (!alarmSecondSnack.equals("0")) {
             binding.secondSnackTimeTv.setText(alarmSecondSnack);
+            secondSnackAlarm = alarmSecondSnack;
             binding.secondSnackSw.setChecked(true);
         }
 
-        if (!alarmDiner.equals("")) {
+        if (!alarmDiner.equals("0")) {
             binding.dinerTimeTv.setText(alarmDiner);
+            dinnerAlarm = alarmDiner;
             binding.dinerSw.setChecked(true);
         }
 
@@ -177,17 +202,20 @@ public class AlarmsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmBreakfast(binding.breakfastTimeTv.getText().toString());
+
                     String selectedTime = binding.breakfastTimeTv.getText().toString();
+                    breakfastAlarm = selectedTime;
                     String[] separated = selectedTime.split(":");
                     String hours = separated[0];
                     String minutes = separated[1];
 
                     setAlarm(Alarms.BREAKFAST, Integer.parseInt(hours), Integer.parseInt(minutes));
+                    updateAlarmsInDatabase();
                     return;
                 }
+                breakfastAlarm = "0";
+                updateAlarmsInDatabase();
                 cancelAlarm(Alarms.BREAKFAST);
-                PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmBreakfast("");
             }
         });
 
@@ -195,17 +223,19 @@ public class AlarmsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmFirstSnack(binding.firstSnackTimeTv.getText().toString());
                     String selectedTime = binding.firstSnackTimeTv.getText().toString();
+                    firstSnackAlarm = selectedTime;
                     String[] separated = selectedTime.split(":");
                     String hours = separated[0];
                     String minutes = separated[1];
 
                     setAlarm(Alarms.FIRST_SNACK, Integer.parseInt(hours), Integer.parseInt(minutes));
+                    updateAlarmsInDatabase();
                     return;
                 }
                 cancelAlarm(Alarms.FIRST_SNACK);
-                PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmFirstSnack("");
+                firstSnackAlarm = "0";
+                updateAlarmsInDatabase();
             }
         });
 
@@ -213,17 +243,19 @@ public class AlarmsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmLunch(binding.lunchTimeTv.getText().toString());
                     String selectedTime = binding.lunchTimeTv.getText().toString();
+                    lunchAlarm = selectedTime;
                     String[] separated = selectedTime.split(":");
                     String hours = separated[0];
                     String minutes = separated[1];
 
                     setAlarm(Alarms.LUNCH, Integer.parseInt(hours), Integer.parseInt(minutes));
+                    updateAlarmsInDatabase();
                     return;
                 }
                 cancelAlarm(Alarms.LUNCH);
-                PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmLunch("");
+                lunchAlarm = "0";
+                updateAlarmsInDatabase();
             }
         });
 
@@ -231,17 +263,19 @@ public class AlarmsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmSecondSnack(binding.secondSnackTimeTv.getText().toString());
                     String selectedTime = binding.secondSnackTimeTv.getText().toString();
+                    secondSnackAlarm = selectedTime;
                     String[] separated = selectedTime.split(":");
                     String hours = separated[0];
                     String minutes = separated[1];
 
                     setAlarm(Alarms.SECOND_SNACK, Integer.parseInt(hours), Integer.parseInt(minutes));
+                    updateAlarmsInDatabase();
                     return;
                 }
                 cancelAlarm(Alarms.SECOND_SNACK);
-                PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmSecondSnack("");
+                secondSnackAlarm = "0";
+                updateAlarmsInDatabase();
             }
         });
 
@@ -249,18 +283,49 @@ public class AlarmsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmDiner(binding.dinerTimeTv.getText().toString());
                     String selectedTime = binding.dinerTimeTv.getText().toString();
+                    dinnerAlarm = selectedTime;
                     String[] separated = selectedTime.split(":");
                     String hours = separated[0];
                     String minutes = separated[1];
 
                     setAlarm(Alarms.DINER, Integer.parseInt(hours), Integer.parseInt(minutes));
+                    updateAlarmsInDatabase();
                     return;
                 }
                 cancelAlarm(Alarms.DINER);
-                PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmDiner("");
+                dinnerAlarm = "0";
+                updateAlarmsInDatabase();
             }
+        });
+
+
+    }
+
+    private void updateAlarmsInDatabase() {
+
+        //build child
+        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm(breakfastAlarm,firstSnackAlarm,lunchAlarm,secondSnackAlarm,dinnerAlarm));
+    }
+
+    private void getUserAlarms() {
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        mDatabase.child("alarms").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Alarm userAlarms = dataSnapshot.getValue(Alarm.class);
+                populateFields(userAlarms);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
         });
 
 
@@ -497,35 +562,40 @@ public class AlarmsActivity extends BaseActivity {
                     case BREAKFAST:
                         binding.breakfastTimeTv.setText(String.valueOf(hoursPicker.getValue()) + ":" + String.valueOf(minutesPicker.getValue()));
                         if (binding.breakfastSw.isChecked()) {
-                            PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmBreakfast(binding.breakfastTimeTv.getText().toString());
+                            breakfastAlarm = binding.breakfastTimeTv.getText().toString() ;
+                            updateAlarmsInDatabase();
                             setAlarm(alarmType,hoursPicker.getValue(),minutesPicker.getValue());
                         }
                         break;
                     case FIRST_SNACK:
                         binding.firstSnackTimeTv.setText(String.valueOf(hoursPicker.getValue()) + ":" + String.valueOf(minutesPicker.getValue()));
                         if (binding.firstSnackSw.isChecked()) {
-                            PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmFirstSnack(binding.firstSnackTimeTv.getText().toString());
+                            firstSnackAlarm = binding.firstSnackTimeTv.getText().toString() ;
+                            updateAlarmsInDatabase();
                             setAlarm(alarmType,hoursPicker.getValue(),minutesPicker.getValue());
                         }
                         break;
                     case LUNCH:
                         binding.lunchTimeTv.setText(String.valueOf(hoursPicker.getValue()) + ":" + String.valueOf(minutesPicker.getValue()));
                         if (binding.lunchSw.isChecked()) {
-                            PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmLunch(binding.lunchTimeTv.getText().toString());
+                            lunchAlarm = binding.lunchTimeTv.getText().toString() ;
+                            updateAlarmsInDatabase();
                             setAlarm(alarmType,hoursPicker.getValue(),minutesPicker.getValue());
                         }
                         break;
                     case SECOND_SNACK:
                         binding.secondSnackTimeTv.setText(String.valueOf(hoursPicker.getValue()) + ":" + String.valueOf(minutesPicker.getValue()));
                         if (binding.secondSnackSw.isChecked()) {
-                            PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmSecondSnack(binding.secondSnackTimeTv.getText().toString());
+                            secondSnackAlarm = binding.secondSnackTimeTv.getText().toString() ;
+                            updateAlarmsInDatabase();
                             setAlarm(alarmType,hoursPicker.getValue(),minutesPicker.getValue());
                         }
                         break;
                     case DINER:
                         binding.dinerTimeTv.setText(String.valueOf(hoursPicker.getValue()) + ":" + String.valueOf(minutesPicker.getValue()));
                         if (binding.dinerSw.isChecked()) {
-                            PrefsManager.getInstance(AlarmsActivity.this).putKeyAlarmDiner(binding.dinerTimeTv.getText().toString());
+                            dinnerAlarm = binding.dinerTimeTv.getText().toString() ;
+                            updateAlarmsInDatabase();
                             setAlarm(alarmType,hoursPicker.getValue(),minutesPicker.getValue());
                         }
                         break;

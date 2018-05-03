@@ -139,7 +139,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     public void onEditInfoPressed(View view){
         IntentStarter.gotoProfileActivityToEditInfo(HomeActivity.this, false);
     }
-    
+
 
     public void onMenuButtonPressed(View view){
         binding.drawerLayout.openDrawer(Gravity.END);
