@@ -231,7 +231,8 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:textColor="@color/gray_dark"
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:textColor="@color/black"
                     android:id="@+id/logout_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

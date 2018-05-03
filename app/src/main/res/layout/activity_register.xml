@@ -68,7 +68,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/edittext_height"
                                 android:hint="@string/name"
-                                android:inputType="textPersonName"
+                                android:inputType="textCapSentences"
                                 android:textColor="@color/gray_dark"
                                 android:textSize="@dimen/text_medium_2" />
                         </android.support.design.widget.TextInputLayout>

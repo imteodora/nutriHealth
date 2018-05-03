@@ -38,7 +38,7 @@ public class TodayViewModel extends AndroidViewModel {
     }
 
     public void addProduct(Product product){
-        historyRepository.setProduct(new ProductDb(product.getName(),product.getType(),product.getKcal(),product.getDate()));
+        historyRepository.setProduct(product);
     }
 
     public void getAllProductsForToday(String date){

@@ -6,12 +6,21 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.nutrihealth.database.ProductDao;
 import com.nutrihealth.database.ProductDb;
 import com.nutrihealth.database.ProductRoomDatabase;
 import com.nutrihealth.model.BaseResponse;
 import com.nutrihealth.model.HistoryDay;
 import com.nutrihealth.model.Product;
+import com.nutrihealth.model.ProfileInfos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,84 +54,89 @@ public class HistoryRepository {
 
     public void getHistory(){
 
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, List<ProductDb>> getHistoryTask = new AsyncTask<Void, Void, List<ProductDb>>() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child("products");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected List<ProductDb> doInBackground(Void... voids) {
-                List<ProductDb> productDbList = productDao.getAll();
-                return productDbList;
-            }
-
-            @Override
-            protected void onPostExecute(List<ProductDb> productDbList) {
-                super.onPostExecute(productDbList);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 List<HistoryDay> historyDayList = new ArrayList<>();
+                if (dataSnapshot.exists()) {
 
-                for(ProductDb p : productDbList){
-                    String date = p.getDate();
+                    // dataSnapshot is the "issue" node with all children with id 0
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Product product = issue.getValue(Product.class);
 
-                    boolean updated = false;
-                    for(HistoryDay d : historyDayList){
-                        if(d.getDate().equals(date)){
-                            int kcal = Integer.parseInt(d.getKcal()) + Integer.parseInt(p.getKcal());
-                            d.setKcal(String.valueOf(kcal));
-                            updated = true;
+                        if(product.getUserId().equals(user.getUid())){
+                            String date = product.getDate();
+
+                            boolean updated = false;
+                            for(HistoryDay d : historyDayList){
+                                if(d.getDate().equals(date)){
+                                    int kcal = Integer.parseInt(d.getKcal()) + Integer.parseInt(product.getKcal());
+                                    d.setKcal(String.valueOf(kcal));
+                                    updated = true;
+                                }
+                            }
+
+                            if(updated == false){
+                                historyDayList.add(new HistoryDay(product.getDate(), product.getKcal()));
+                            }
                         }
                     }
-
-                    if(updated == false){
-                        historyDayList.add(new HistoryDay(p.getDate(), p.getKcal()));
-                    }
                 }
-
-                historyLiveData.setValue(Resource.success(historyDayList));
+                historyLiveData.setValue(Resource.<List<HistoryDay>>success(historyDayList));
             }
-        };
-        getHistoryTask.execute();
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                historyLiveData.setValue(Resource.<List<HistoryDay>>error("Ne pare rau a aparut o eroare"));
+            }
+        });
+        
 
     }
 
     public void getTodayHistory(final String date){
 
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, List<ProductDb>> getTodayHistoryTask = new AsyncTask<Void, Void, List<ProductDb>>() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child("products");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected List<ProductDb> doInBackground(Void... voids) {
-                List<ProductDb> productDbList = productDao.getAllForToday(date);
-                return productDbList;
-            }
-
-            @Override
-            protected void onPostExecute(List<ProductDb> productDbList) {
-                super.onPostExecute(productDbList);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 List<Product> productList = new ArrayList<>();
+                if (dataSnapshot.exists()) {
 
-                for(ProductDb p : productDbList)
-                    productList.add(new Product(p.getName(),p.getKcal(), p.getType(), p.getDate()));
+                    // dataSnapshot is the "issue" node with all children with id 0
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Product product = issue.getValue(Product.class);
 
+                        if(product.getUserId().equals(user.getUid()) && product.getDate().equals(date)){
+                            productList.add(product);
+                        }
+                    }
+                }
                 todayHistoryLiveData.setValue(Resource.success(productList));
             }
-        };
-        getTodayHistoryTask.execute();
 
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                todayHistoryLiveData.setValue(Resource.<List<Product>>error("Ne pare rau a aparut o eroare"));
+            }
+        });
 
 
     }
 
-    public void setProduct(final ProductDb product){
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> insertProducTask = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                productDao.insertProduct(product);
-                return null;
-            }
+    public void setProduct(Product product){
 
-            @Override
-            protected void onPostExecute(Void offerEntity) {
-                super.onPostExecute(offerEntity);
-                setProductLiveData.setValue(Resource.success(new BaseResponse("Informatiile au fost adaugate cu succes")));
-            }
-        };
-        insertProducTask.execute();
+
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        //build child
+        mDatabase.child("products").push().setValue(product);
+
+        setProductLiveData.setValue(Resource.success(new BaseResponse("Succes")));
     }
 }

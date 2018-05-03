@@ -331,6 +331,7 @@ public class RegisterActivity extends BaseActivity {
                             int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), finalGender);
                             int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), idealWeight,finalGender, activity);
 
+                            PrefsManager.getInstance(RegisterActivity.this).setKeyKcalPerDay(kcalPerDay);
                             ProfileInfos profileInfos = new ProfileInfos(name, Integer.parseInt(currentWeight), finalGender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight,kcalPerDay );
                             writeUserInfos(profileInfos);
                         }
@@ -349,6 +350,11 @@ public class RegisterActivity extends BaseActivity {
         //build child
         mDatabase.child("users").child(user.getUid()).setValue(profileInfos);
         mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm("0","0","0","0","0"));
-        finish();
+        showCustomDialog(getResources().getString(R.string.success), getResources().getString(R.string.success_new_account), DialogType.SUCCESS, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }

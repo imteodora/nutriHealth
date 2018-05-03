@@ -85,6 +85,7 @@
     <string name="password_confirmation">Confirma parola</string>
     <string name="login">Intra in cont</string>
     <string name="no_account">Nu ai cont?</string>
+    <string name="success_new_account">Contul a fost creat cu succes</string>
 
 
 

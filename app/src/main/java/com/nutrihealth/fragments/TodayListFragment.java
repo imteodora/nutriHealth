@@ -21,6 +21,8 @@ import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nutrihealth.R;
 import com.nutrihealth.activities.ProfileActivity;
 import com.nutrihealth.adapters.TodayPlannerAdapter;
@@ -124,21 +126,25 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
                 View radioButton = mealRg.findViewById(idRadioButton);
                 int idx = mealRg.indexOfChild(radioButton);
 
+
+                //get firebase user
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 switch (idx) {
                     case 0:
-                        viewModel.addProduct(new Product(productName, calNr, 0, getTodayInFOrmat()));
+                        viewModel.addProduct(new Product(productName, calNr, 0, getTodayInFOrmat(),user.getUid()));
                         break;
                     case 1:
-                        viewModel.addProduct(new Product(productName, calNr, 1, getTodayInFOrmat()));
+                        viewModel.addProduct(new Product(productName, calNr, 1, getTodayInFOrmat(),user.getUid()));
                         break;
                     case 2:
-                        viewModel.addProduct(new Product(productName, calNr, 2, getTodayInFOrmat()));
+                        viewModel.addProduct(new Product(productName, calNr, 2, getTodayInFOrmat(),user.getUid()));
                         break;
                     case 3:
-                        viewModel.addProduct(new Product(productName, calNr, 3, getTodayInFOrmat()));
+                        viewModel.addProduct(new Product(productName, calNr, 3, getTodayInFOrmat(),user.getUid()));
                         break;
                     case 4:
-                        viewModel.addProduct(new Product(productName, calNr, 4, getTodayInFOrmat()));
+                        viewModel.addProduct(new Product(productName, calNr, 4, getTodayInFOrmat(),user.getUid()));
                         break;
                 }
 
