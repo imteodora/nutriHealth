@@ -124,6 +124,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
     @Override
     protected void onResume() {
+        binding.setShowProgressBar(true);
         viewModel.returnHomeUserInfos(HomeActivity.this);
         setupDrawer();
         setupDrawerList();
@@ -138,12 +139,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     public void onEditInfoPressed(View view){
         IntentStarter.gotoProfileActivityToEditInfo(HomeActivity.this, false);
     }
-
-    public void onTestButtonPressed(View view){
-        Intent intent = new Intent(HomeActivity.this, TestActivity.class);
-        startActivity(intent);
-
-    }
+    
 
     public void onMenuButtonPressed(View view){
         binding.drawerLayout.openDrawer(Gravity.END);

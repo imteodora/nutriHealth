@@ -1,9 +1,12 @@
 package com.nutrihealth.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by Teo on 3/31/2018.
  */
 
+@IgnoreExtraProperties
 public class ProfileInfos {
 
     private String name;
@@ -12,6 +15,30 @@ public class ProfileInfos {
     private int height;
     private int age;
     private int activityLvl;
+    private int idealWeight;
+    private int kcalPerDay;
+
+    public int getIdealWeight() {
+        return idealWeight;
+    }
+
+    public int getKcalPerDay() {
+        return kcalPerDay;
+    }
+
+    public ProfileInfos(String name, int actualWeight, String gender, int height, int age, int activityLvl, int idealWeight, int kcalPerDay) {
+        this.name = name;
+        this.actualWeight = actualWeight;
+        this.gender = gender;
+        this.height = height;
+        this.age = age;
+        this.activityLvl = activityLvl;
+        this.idealWeight = idealWeight;
+        this.kcalPerDay = kcalPerDay;
+    }
+
+    public ProfileInfos() {
+    }
 
     public ProfileInfos(String name, int actualWeight, String gender, int height, int age, int activityLvl) {
         this.name = name;

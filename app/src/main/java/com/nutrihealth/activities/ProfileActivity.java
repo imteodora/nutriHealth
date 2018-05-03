@@ -47,6 +47,7 @@ import com.nutrihealth.utils.FontUtils;
 import com.nutrihealth.utils.InputValidator;
 import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.utils.PermissionUtil;
+import com.nutrihealth.utils.WeightUtils;
 import com.nutrihealth.viewModels.ProfileViewModel;
 import com.nutrihealth.views.CustomToolbar;
 
@@ -88,7 +89,8 @@ public class ProfileActivity extends BaseActivity {
         listenToLiveData();
 
         if (getIntent().hasExtra(Constants.EDIT_INFO_CODE)) {
-            viewModel.returnUserInfos(ProfileActivity.this);
+            binding.setShowProgressBar(true);
+            viewModel.returnUserInfos();
             binding.profileToolbar.setOnBackButtonPressedListener(new CustomToolbar.OnBackButtonPressedListener() {
                 @Override
                 public void onBackButtonPressed() {
@@ -377,7 +379,31 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
 
-        viewModel.editProfileInfos(new ProfileInfos(name, Integer.parseInt(currentWeight), gender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl), ProfileActivity.this);
+        double activity = 1;
+        switch (selectedLvl) {
+            case 0:
+                activity = Constants.SPORT_ACTIVITY_LVL_1;
+                break;
+            case 1:
+                activity = Constants.SPORT_ACTIVITY_LVL_2;
+                break;
+            case 2:
+                activity = Constants.SPORT_ACTIVITY_LVL_3;
+                break;
+            case 3:
+                activity = Constants.SPORT_ACTIVITY_LVL_4;
+                break;
+            case 4:
+                activity = Constants.SPORT_ACTIVITY_LVL_5;
+                break;
+
+        }
+
+        int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), gender);
+        int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), idealWeight,gender, activity);
+
+        binding.setShowProgressBar(true);
+        viewModel.editProfileInfos(new ProfileInfos(name, Integer.parseInt(currentWeight), gender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight,kcalPerDay));
     }
 
     private void showUpdatePictureDialog() {

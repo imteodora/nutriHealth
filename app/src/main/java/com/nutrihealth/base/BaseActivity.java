@@ -123,7 +123,7 @@ public class BaseActivity extends AppCompatActivity {
         customDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationUpAndUp;
         customDialog.show();
 
-        CountDownTimer timer = new CountDownTimer(4000, 1000) {
+        CountDownTimer timer = new CountDownTimer(3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 

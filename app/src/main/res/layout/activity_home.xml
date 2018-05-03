@@ -106,7 +106,6 @@
                         <TextView
                             android:id="@+id/ideal_weight_tv"
                             android:layout_margin="@dimen/margin_medium"
-                            android:text="66 kg"
                             android:textColor="@color/light_blue"
                             android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
@@ -132,7 +131,6 @@
                         <TextView
                             android:id="@+id/weight_to_lose_tv"
                             android:layout_margin="@dimen/margin_medium"
-                            android:text="6 kg"
                             android:textColor="@color/light_blue"
                             android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
@@ -158,7 +156,6 @@
                         <TextView
                             android:id="@+id/cal_per_day_tv"
                             android:layout_margin="@dimen/margin_medium"
-                            android:text="1200"
                             android:textColor="@color/light_blue"
                             android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
@@ -167,12 +164,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:onClick="@{homeActivity::onTestButtonPressed}"
-                    android:text="Test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"/>
 
 
 

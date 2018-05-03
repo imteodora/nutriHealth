@@ -23,6 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.nutrihealth.R;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.constants.Constants;
@@ -33,6 +36,7 @@ import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.utils.FontUtils;
 import com.nutrihealth.utils.InputValidator;
 import com.nutrihealth.utils.IntentStarter;
+import com.nutrihealth.utils.WeightUtils;
 import com.nutrihealth.viewModels.ProfileViewModel;
 import com.nutrihealth.views.CustomToolbar;
 
@@ -46,12 +50,15 @@ public class RegisterActivity extends BaseActivity {
     private int selectedLvl = -1;
     private FirebaseAuth auth;
 
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(RegisterActivity.this, R.layout.activity_register);
         auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         binding.setRegisterActivity(this);
         binding.setShowProgressBar(false);
         setUpViews();
@@ -208,11 +215,11 @@ public class RegisterActivity extends BaseActivity {
         binding.heightEt.setError(null);
         binding.ageEt.setError(null);
 
-        String name = binding.nameEt.getText().toString();
-        String currentWeight = binding.currentWeightEt.getText().toString();
+        final String name = binding.nameEt.getText().toString();
+        final String currentWeight = binding.currentWeightEt.getText().toString();
         String gender = null;
-        String height = binding.heightEt.getText().toString();
-        String age = binding.ageEt.getText().toString();
+        final String height = binding.heightEt.getText().toString();
+        final String age = binding.ageEt.getText().toString();
         String activityType = binding.everyDaySportEt.getText().toString();
         String email = binding.emailEt.getText().toString();
         String password = binding.passwordEt.getText().toString();
@@ -286,6 +293,7 @@ public class RegisterActivity extends BaseActivity {
 
         binding.setShowProgressBar(true);
 
+        final String finalGender = gender;
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -298,7 +306,32 @@ public class RegisterActivity extends BaseActivity {
                         if (!task.isSuccessful()) {
                             showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.try_again), DialogType.ERROR, null);
                         } else {
-                            finish();
+
+                            double activity = 1;
+                            switch (selectedLvl) {
+                                case 0:
+                                    activity = Constants.SPORT_ACTIVITY_LVL_1;
+                                    break;
+                                case 1:
+                                    activity = Constants.SPORT_ACTIVITY_LVL_2;
+                                    break;
+                                case 2:
+                                    activity = Constants.SPORT_ACTIVITY_LVL_3;
+                                    break;
+                                case 3:
+                                    activity = Constants.SPORT_ACTIVITY_LVL_4;
+                                    break;
+                                case 4:
+                                    activity = Constants.SPORT_ACTIVITY_LVL_5;
+                                    break;
+
+                            }
+
+                            int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), finalGender);
+                            int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), idealWeight,finalGender, activity);
+
+                            ProfileInfos profileInfos = new ProfileInfos(name, Integer.parseInt(currentWeight), finalGender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight,kcalPerDay );
+                            writeUserInfos(profileInfos);
                         }
                     }
                 });
@@ -306,5 +339,14 @@ public class RegisterActivity extends BaseActivity {
 
 
 
+    }
+
+    private void writeUserInfos(ProfileInfos profileInfos) {
+        //get firebase user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //build child
+        mDatabase.child("users").child(user.getUid()).setValue(profileInfos);
+        finish();
     }
 }

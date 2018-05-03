@@ -25,12 +25,12 @@ public class ProfileViewModel extends ViewModel {
         return profileRepository.getUserInfosLiveData();
     }
 
-    public void editProfileInfos(ProfileInfos profileInfos, Context context) {
-        profileRepository.editProfileInfos(profileInfos, context);
+    public void editProfileInfos(ProfileInfos profileInfos) {
+        profileRepository.editProfileInfos(profileInfos);
     }
 
-    public void returnUserInfos(Context context){
-        profileRepository.returnUserInfos(context);
+    public void returnUserInfos(){
+        profileRepository.returnUserInfos();
     }
 
 }
