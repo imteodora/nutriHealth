@@ -30,8 +30,8 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     private void goToNextScreen() {
-        if (PrefsManager.getInstance(SplashScreenActivity.this).isFirstLaunch()) {
-            IntentStarter.gotoProfileActivity(this, true);
+        if (PrefsManager.getInstance(SplashScreenActivity.this).getKeyIsUserLoggedIn()) {
+            IntentStarter.gotoHomeActivity(this, true);
         } else {
             IntentStarter.gotoLoginActivity(this, true);
         }

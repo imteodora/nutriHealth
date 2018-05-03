@@ -52,7 +52,7 @@
         <activity
             android:name="com.nutrihealth.activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <provider
             android:name="com.nutrihealth.utils.GenericFileProvider"

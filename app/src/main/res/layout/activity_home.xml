@@ -218,6 +218,39 @@
                 android:divider="@null"
                 android:dividerHeight="0dp" />
 
+            <RelativeLayout
+                android:layout_alignParentBottom="true"
+                android:id="@+id/logout_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:onClick="@{homeActivity::onLogoutPressed}">
+
+                <View
+                    android:id="@+id/draweritem_separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_light" />
+                <ImageView
+                    android:id="@+id/draweritem_image"
+                    android:src="@drawable/ic_logout"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:textColor="@color/gray_dark"
+                    android:id="@+id/logout_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/draweritem_image"
+                    android:layout_centerVertical="true"
+                    android:text="@string/log_out"/>
+
+
+            </RelativeLayout>
+
         </RelativeLayout>
     </android.support.v4.widget.DrawerLayout>
 

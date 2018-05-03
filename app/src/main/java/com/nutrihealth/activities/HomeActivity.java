@@ -6,18 +6,22 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nutrihealth.R;
 import com.nutrihealth.adapters.NavigationDrawerAdapter;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.databinding.ActivityHomeBinding;
 import com.nutrihealth.listeners.DrawerItemListener;
 import com.nutrihealth.model.HomeInfos;
+import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.repository.Resource;
 import com.nutrihealth.utils.BitmapUtils;
 import com.nutrihealth.utils.IntentStarter;
@@ -35,6 +39,8 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
     private NavigationDrawerAdapter adapter;
     private ActionBarDrawerToggle drawerToggle;
+    private FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authListener;
 
     private boolean doubleBackToExitPressedOnce = false;
     
@@ -43,9 +49,26 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(HomeActivity.this,R.layout.activity_home);
         viewModel = ViewModelProviders.of(HomeActivity.this).get(HomeViewModel.class);
+        auth = FirebaseAuth.getInstance();
+
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+
+                    PrefsManager.getInstance(HomeActivity.this).putKeyIsUserLoggedIn(false);
+                    IntentStarter.gotoLoginActivity(HomeActivity.this, true);
+
+                }
+            }
+        };
+
+        auth.addAuthStateListener(authListener);
 
         binding.setHomeActivity(this);
         binding.setShowProgressBar(false);
+
 
         listenForLiveData();
         setUpViews();
@@ -155,5 +178,18 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
         }
         binding.drawerLayout.closeDrawer(Gravity.END);
+    }
+
+    public void onLogoutPressed(View view){
+
+        auth.signOut();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(authListener != null){
+            auth.removeAuthStateListener(authListener);
+        }
     }
 }

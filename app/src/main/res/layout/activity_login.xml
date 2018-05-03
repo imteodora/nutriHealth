@@ -106,6 +106,10 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_2" />
 
-
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{showProgressBar ? View.VISIBLE:View.GONE}" />
     </RelativeLayout>
 </layout>

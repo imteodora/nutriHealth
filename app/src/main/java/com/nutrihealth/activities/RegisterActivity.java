@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,15 +17,22 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nutrihealth.R;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.constants.Constants;
 import com.nutrihealth.databinding.ActivityProfileBinding;
 import com.nutrihealth.databinding.ActivityRegisterBinding;
 import com.nutrihealth.model.ProfileInfos;
+import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.utils.FontUtils;
 import com.nutrihealth.utils.InputValidator;
+import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.viewModels.ProfileViewModel;
 import com.nutrihealth.views.CustomToolbar;
 
@@ -36,13 +44,14 @@ public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding binding;
     private int selectedLvl = -1;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(RegisterActivity.this, R.layout.activity_register);
-
+        auth = FirebaseAuth.getInstance();
         binding.setRegisterActivity(this);
         binding.setShowProgressBar(false);
         setUpViews();
@@ -225,6 +234,12 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        if(password.length() < 6){
+            showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.error_password_length), DialogType.ERROR, null);
+            binding.passwordEt.setError(getResources().getString(R.string.error_password_length));
+            return;
+        }
+
         if(!password.equals(passwordConfirmation)){
             showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.error_confirmation_pass), DialogType.ERROR, null);
             binding.passwordConfimationEt.setError(getResources().getString(R.string.error_confirmation_pass));
@@ -268,6 +283,28 @@ public class RegisterActivity extends BaseActivity {
             showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.error_no_activity_type), DialogType.ERROR, null);
             return;
         }
+
+        binding.setShowProgressBar(true);
+
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        binding.setShowProgressBar(false);
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.try_again), DialogType.ERROR, null);
+                        } else {
+                            finish();
+                        }
+                    }
+                });
+
+
+
 
     }
 }
