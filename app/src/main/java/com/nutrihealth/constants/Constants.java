@@ -26,4 +26,5 @@ public class Constants {
 
     public final static String REQUEST_CODE_FOR_ALARM = "request_code";
     public final static String EDIT_INFO_CODE = "edit_info_code";
+    public final static String DAY_DETAILS_EXTRA_CODE = "day_details_code";
 }

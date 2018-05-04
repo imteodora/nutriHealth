@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="dayDetailsActivity"
+            type="com.nutrihealth.activities.DayDetailsActivity" />
+
+        <variable
+            name="showProgressBar"
+            type="boolean" />
+
+    </data>
+
+    <RelativeLayout
+        android:background="@color/gray_dark_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.nutrihealth.views.CustomToolbar
+            android:id="@+id/day_details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            app:contentInsetStart="0dp"
+            />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/day_details_toolbar"
+            android:id="@+id/products_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium" />
+
+    </RelativeLayout>
+</layout>

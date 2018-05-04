@@ -21,6 +21,7 @@ import com.nutrihealth.model.HistoryDay;
 import com.nutrihealth.model.Product;
 import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.repository.Resource;
+import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.viewModels.HistoryViewModel;
 import com.nutrihealth.viewModels.TodayViewModel;
 
@@ -32,7 +33,7 @@ import java.util.List;
  * Created by Teodora on 12.04.2018.
  */
 
-public class HistoryListFragment extends BaseFragment {
+public class HistoryListFragment extends BaseFragment implements HistoryPlannerAdapter.HistoryListener {
     private FragmentHistoryBinding binding;
     private HistoryViewModel viewModel;
     private HistoryPlannerAdapter adapter;
@@ -86,13 +87,20 @@ public class HistoryListFragment extends BaseFragment {
 
     private void setUpRecyclerView(List<HistoryDay> historyDayList) {
 
+
         Collections.reverse(historyDayList);
+        this.historyDayList = historyDayList;
         int perKcal = PrefsManager.getInstance(getContext()).getKeyKcalPerDay();
         adapter = new HistoryPlannerAdapter(getActivity(), historyDayList, perKcal + "");
+        adapter.setHistoryListener(this);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.historyRv.setLayoutManager(llm);
         binding.historyRv.setAdapter(adapter);
     }
 
 
+    @Override
+    public void onHistoryItemPressed(int position) {
+        IntentStarter.gotoDayDetailsActivity(getActivity(),historyDayList.get(position).getDate(),false);
+    }
 }

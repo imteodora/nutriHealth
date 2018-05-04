@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.nutrihealth.R;
 import com.nutrihealth.activities.AlarmsActivity;
 import com.nutrihealth.activities.CaloriesHistoryActivity;
+import com.nutrihealth.activities.DayDetailsActivity;
 import com.nutrihealth.activities.HomeActivity;
 import com.nutrihealth.activities.LoginActivity;
 import com.nutrihealth.activities.ProfileActivity;
@@ -71,6 +72,15 @@ public class IntentStarter {
 
     public static void gotoLoginActivity(Context context, final boolean shouldClearAllPreviousScreens) {
         Intent intent = new Intent(context, LoginActivity.class);
+        if (shouldClearAllPreviousScreens) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void gotoDayDetailsActivity(Context context,String date, final boolean shouldClearAllPreviousScreens) {
+        Intent intent = new Intent(context, DayDetailsActivity.class);
+        intent.putExtra(Constants.DAY_DETAILS_EXTRA_CODE, date);
         if (shouldClearAllPreviousScreens) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         }

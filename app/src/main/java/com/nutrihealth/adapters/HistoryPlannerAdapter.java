@@ -31,6 +31,11 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
     private Context context;
     private List<HistoryDay> historyDayList;
     private String idealCal;
+    private HistoryListener listener;
+
+    public interface HistoryListener{
+        void onHistoryItemPressed(int position);
+    }
 
     public HistoryPlannerAdapter(Context context, List<HistoryDay> historyDayList, String idealCal) {
         this.context = context;
@@ -38,6 +43,9 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
         this.idealCal = idealCal;
     }
 
+    public void setHistoryListener(HistoryListener listener){
+        this.listener = listener;
+    }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View historyView = LayoutInflater.from(context).inflate(R.layout.item_history, parent, false);
@@ -46,8 +54,10 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final HistoryViewHolder viewHolder = (HistoryViewHolder) holder;
+
+
 
         viewHolder.bottomView.setVisibility(View.VISIBLE);
         if (position == 0) {
@@ -67,7 +77,16 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
 
         if (getTodayInFOrmat().equals(historyDayList.get(position).getDate())) {
             viewHolder.dateTv.setText(context.getResources().getString(R.string.today));
+            viewHolder.historyContainer.setOnClickListener(null);
         } else {
+            viewHolder.historyContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        listener.onHistoryItemPressed(position);
+                    }
+                }
+            });
             if (getYesterdayInFormat().equals(historyDayList.get(position).getDate())) {
                 viewHolder.dateTv.setText(context.getResources().getString(R.string.yesterday));
             } else {

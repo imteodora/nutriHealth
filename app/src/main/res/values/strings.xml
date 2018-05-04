@@ -79,6 +79,7 @@
     <string name="cancel">Renunta</string>
     <string name="calories_number">Numarul de kcal</string>
     <string name="you_have">Mai poti consuma</string>
+    <string name="you_had">Mai puteai consuma </string>
     <string name="you_exceed">Ai depasit numarul permis cu</string>
 
     <!-- Register screen -->
