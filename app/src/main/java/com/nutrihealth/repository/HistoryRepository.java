@@ -93,7 +93,7 @@ public class HistoryRepository {
                 historyLiveData.setValue(Resource.<List<HistoryDay>>error("Ne pare rau a aparut o eroare"));
             }
         });
-        
+
 
     }
 
@@ -137,6 +137,6 @@ public class HistoryRepository {
         //build child
         mDatabase.child("products").push().setValue(product);
 
-        setProductLiveData.setValue(Resource.success(new BaseResponse("Succes")));
+        setProductLiveData.setValue(Resource.success(new BaseResponse("Produsul a fost adaugat cu succes")));
     }
 }

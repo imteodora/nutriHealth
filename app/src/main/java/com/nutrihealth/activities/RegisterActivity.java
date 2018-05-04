@@ -349,7 +349,7 @@ public class RegisterActivity extends BaseActivity {
 
         //build child
         mDatabase.child("users").child(user.getUid()).setValue(profileInfos);
-        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm("0","0","0","0","0"));
+        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm("0","0","0","0","0","0"));
         showCustomDialog(getResources().getString(R.string.success), getResources().getString(R.string.success_new_account), DialogType.SUCCESS, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

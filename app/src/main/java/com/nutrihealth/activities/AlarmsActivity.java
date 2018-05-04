@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
@@ -85,6 +86,7 @@ public class AlarmsActivity extends BaseActivity {
     private String lunchAlarm = "0";
     private String secondSnackAlarm = "0";
     private String dinnerAlarm = "0";
+    private String waterAlarm = "0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,6 +170,7 @@ public class AlarmsActivity extends BaseActivity {
         String alarmLunch = alarm.getLunch();
         String alarmSecondSnack = alarm.getSecondSnack();
         String alarmDiner = alarm.getDinner();
+        String alarmWater = alarm.getWater();
 
         if (!alarmBreackfast.equals("0")) {
             binding.breakfastTimeTv.setText(alarmBreackfast);
@@ -198,6 +201,26 @@ public class AlarmsActivity extends BaseActivity {
             binding.dinerSw.setChecked(true);
         }
 
+        if (!alarmWater.equals("0")) {
+            waterAlarm = alarmWater;
+            binding.waterSw.setChecked(true);
+        }
+
+        binding.waterSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    waterAlarm = "1";
+                    setWaterAlarm();
+                    updateAlarmsInDatabase();
+                    return;
+                }
+                waterAlarm = "0";
+                updateAlarmsInDatabase();
+                cancelWaterAlarm();
+            }
+        });
         binding.breakfastSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -305,7 +328,7 @@ public class AlarmsActivity extends BaseActivity {
     private void updateAlarmsInDatabase() {
 
         //build child
-        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm(breakfastAlarm,firstSnackAlarm,lunchAlarm,secondSnackAlarm,dinnerAlarm));
+        mDatabase.child("alarms").child(user.getUid()).setValue(new Alarm(breakfastAlarm,firstSnackAlarm,lunchAlarm,secondSnackAlarm,dinnerAlarm,waterAlarm));
     }
 
     private void getUserAlarms() {
@@ -329,6 +352,31 @@ public class AlarmsActivity extends BaseActivity {
         });
 
 
+    }
+
+    private void setWaterAlarm(){
+        Intent myIntent = new Intent(getBaseContext(), AlarmBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getBaseContext(), Constants.ALARM_WATER_CODE, myIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 2*60*1000,
+                2*60*1000,
+                pendingIntent);
+
+    }
+
+    private void cancelWaterAlarm(){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent = new Intent(getBaseContext(), AlarmBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getBaseContext(), Constants.ALARM_WATER_CODE, myIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.cancel(pendingIntent);
     }
 
     private void setAlarm(Alarms alarmType, int hourOfDay, int minute) {

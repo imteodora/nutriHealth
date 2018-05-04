@@ -130,7 +130,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter {
                 binding.draweritemName.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
             } else {
                 binding.draweritemImage.setImageResource(drawerItem.getImageResId());
-                binding.draweritemName.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
+                binding.draweritemName.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
             }
 
 

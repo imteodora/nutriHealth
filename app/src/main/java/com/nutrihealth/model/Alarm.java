@@ -13,6 +13,7 @@ public class Alarm {
     private String lunch;
     private String secondSnack;
     private String dinner;
+    private String water;
 
     public Alarm() {
     }
@@ -37,11 +38,16 @@ public class Alarm {
         return dinner;
     }
 
-    public Alarm(String breakfast, String firstSnack, String lunch, String secondSnack, String dinner) {
+    public String getWater() {
+        return water;
+    }
+
+    public Alarm(String breakfast, String firstSnack, String lunch, String secondSnack, String dinner, String water) {
         this.breakfast = breakfast;
         this.firstSnack = firstSnack;
         this.lunch = lunch;
         this.secondSnack = secondSnack;
         this.dinner = dinner;
+        this.water = water;
     }
 }

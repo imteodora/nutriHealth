@@ -65,8 +65,11 @@
     <string name="lunch">Pranzul</string>
     <string name="second_snack">Gustarea 2</string>
     <string name="diner">Cina</string>
-    <string name="notification_title">Ora mesei</string>
-    <string name="notification_text">Este timpul pentru a lua o mica pauza si a te bucura de masa</string>
+    <string name="notification_title">Ora mesei!</string>
+    <string name="notification_text">Este timpul pentru a lua o mica pauza si a te bucura de masa.</string>
+    <string name="notification_water_title"> Nu uita sa bei apa!</string>
+    <string name="notification_water_text"> Este timpul pentru un pahar de apa.</string>
+    <string name="water_reminder">Aminteste-mi sa beau apa!</string>
 
     <!-- Calories screen -->
     <string name="today">Astazi</string>
@@ -86,6 +89,7 @@
     <string name="login">Intra in cont</string>
     <string name="no_account">Nu ai cont?</string>
     <string name="success_new_account">Contul a fost creat cu succes</string>
+
 
 
 
