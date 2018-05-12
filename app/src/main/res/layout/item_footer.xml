@@ -18,4 +18,17 @@
         android:layout_centerHorizontal="true"
         android:padding="@dimen/margin_small"
         android:src="@drawable/ic_add_black_24dp" />
+
+    <TextView
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/no_food_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/no_food"
+        android:textColor="@color/gray_medium"
+        android:textSize="@dimen/text_small_2"
+        fontPath="fonts/Raleway-Italic.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

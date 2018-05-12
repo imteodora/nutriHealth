@@ -78,7 +78,11 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         viewModel = ViewModelProviders.of(ProfileActivity.this).get(ProfileViewModel.class);
+
+
+
         binding = DataBindingUtil.setContentView(ProfileActivity.this, R.layout.activity_profile);
 
         binding.setProfileActivity(this);

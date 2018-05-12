@@ -90,7 +90,7 @@ public class HistoryPlannerAdapter extends RecyclerView.Adapter {
             if (getYesterdayInFormat().equals(historyDayList.get(position).getDate())) {
                 viewHolder.dateTv.setText(context.getResources().getString(R.string.yesterday));
             } else {
-                DateFormat format = new SimpleDateFormat("dd-MMM-yy", new Locale("ro"));
+                DateFormat format = new SimpleDateFormat("dd-MMM-yy");
                 Date date = null;
                 try {
                     date = format.parse(historyDayList.get(position).getDate());

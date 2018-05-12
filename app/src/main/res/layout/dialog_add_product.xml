@@ -18,6 +18,7 @@
             android:layout_height="wrap_content">
 
             <RadioGroup
+
                 android:id="@+id/meal_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,20 +62,71 @@
                     android:textColor="@color/gray_medium" />
             </RadioGroup>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/product_name_et"
-                    fontPath="fonts/Raleway-Medium.ttf"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edittext_height"
-                    android:hint="@string/name"
-                    android:inputType="textCapSentences"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_medium_2" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/product_name_et"
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_height"
+                        android:hint="@string/name"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:inputType="textCapSentences"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="@dimen/text_medium_2" />
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:layout_marginRight="3dp"
+                    android:id="@+id/search_button"
+                    android:padding="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/buttons_bg"
+                    android:text="@string/search" />
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/products_rv"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:id="@+id/no_product_tv"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_product"
+                android:textColor="@color/gray_medium"
+                android:textSize="@dimen/text_small_2"
+                fontPath="fonts/Raleway-Italic.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:id="@+id/product_calories_tv"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/no_product"
+                android:textColor="@color/gray_medium"
+                android:textSize="@dimen/text_small_2"
+                fontPath="fonts/Raleway-Medium.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -123,6 +175,13 @@
 
 
     </RelativeLayout>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

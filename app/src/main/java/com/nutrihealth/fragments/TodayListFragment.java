@@ -18,24 +18,35 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nutrihealth.R;
 import com.nutrihealth.activities.ProfileActivity;
+import com.nutrihealth.adapters.SearchProductsAdapter;
 import com.nutrihealth.adapters.TodayPlannerAdapter;
+import com.nutrihealth.api.response.Nutrient;
+import com.nutrihealth.api.response.NutrientsResponse;
+import com.nutrihealth.api.response.ProductItem;
+import com.nutrihealth.api.response.SearchProductResponse;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.base.BaseFragment;
+import com.nutrihealth.constants.Constants;
 import com.nutrihealth.databinding.FragmentTodayBinding;
 import com.nutrihealth.model.BaseResponse;
 import com.nutrihealth.model.Product;
 import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.repository.Resource;
+import com.nutrihealth.retrofit.RetrofitClient;
 import com.nutrihealth.utils.InputValidator;
 import com.nutrihealth.viewModels.ProfileViewModel;
 import com.nutrihealth.viewModels.TodayViewModel;
+
+import org.w3c.dom.Text;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -43,17 +54,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by Teodora on 12.04.2018.
  */
 
-public class TodayListFragment extends BaseFragment implements TodayPlannerAdapter.AddProductListener {
+public class TodayListFragment extends BaseFragment implements TodayPlannerAdapter.AddProductListener, SearchProductsAdapter.ProductsListener {
 
     private FragmentTodayBinding binding;
     private TodayViewModel viewModel;
+    private Dialog addProductDialog;
     TodayPlannerAdapter adapter;
     private int perKcal = 0;
     private boolean firstTime = true;
+    private List<ProductItem> productItemList;
 
 
     public static final String TAG = "TodayFragment";
@@ -64,11 +81,13 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
     }
 
     private void showAddProductDialog(MealsSection section) {
-        final Dialog addProductDialog = new Dialog(getActivity());
+
         addProductDialog.setContentView(R.layout.dialog_add_product);
 
         Button saveBtn = addProductDialog.findViewById(R.id.choose_button);
         Button canceBtn = addProductDialog.findViewById(R.id.cancel_button);
+        Button search = addProductDialog.findViewById(R.id.search_button);
+
         final RadioGroup mealRg = addProductDialog.findViewById(R.id.meal_group);
         RadioButton breackfastRb = addProductDialog.findViewById(R.id.breakfast_rb);
         RadioButton firstSnackRb = addProductDialog.findViewById(R.id.first_snack_rb);
@@ -77,6 +96,9 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         RadioButton dinerRb = addProductDialog.findViewById(R.id.diner_rb);
         final TextInputEditText productNameEt = addProductDialog.findViewById(R.id.product_name_et);
         final TextInputEditText calEt = addProductDialog.findViewById(R.id.cal_number_et);
+
+        final ProgressBar progressBar = addProductDialog.findViewById(R.id.progressBar);
+        final TextView caloriesTv = addProductDialog.findViewById(R.id.product_calories_tv);
 
         switch (section) {
             case BREAKFAST:
@@ -98,6 +120,24 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         }
 
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productNameEt.setError(null);
+                caloriesTv.setVisibility(View.GONE);
+
+                String productName = productNameEt.getText().toString();
+                if (InputValidator.isInputEmpty(productName)) {
+                    productNameEt.setError(getResources().getString(R.string.error_no_input));
+                    return;
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
+                getSearchResults(productName);
+
+
+            }
+        });
         canceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +202,54 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         addProductDialog.show();
     }
 
+    private void getSearchResults(String productName){
+
+        Call<SearchProductResponse> call = RetrofitClient.getWebServices().sendSearchProductRequest("json",productName,"Standard Reference","r","10", "0", Constants.API_KEY);
+
+        call.enqueue(new Callback<SearchProductResponse>() {
+            @Override
+            public void onResponse(Call<SearchProductResponse> call, Response<SearchProductResponse> response) {
+
+                RecyclerView recyclerView = addProductDialog.findViewById(R.id.products_rv);
+                TextView noProductTv = addProductDialog.findViewById(R.id.no_product_tv);
+                ProgressBar progressBar = addProductDialog.findViewById(R.id.progressBar);
+                  if(response.isSuccessful() && response.body().list != null ){
+
+                      productItemList =  new ArrayList<>();
+                      productItemList = response.body().list.productsList;
+                       if(addProductDialog.isShowing()){
+                           progressBar.setVisibility(View.GONE);
+                           recyclerView.setVisibility(View.VISIBLE);
+                           noProductTv.setVisibility(View.GONE);
+                           RecyclerView.LayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                           SearchProductsAdapter adapter = new SearchProductsAdapter(getContext(), productItemList );
+                           adapter.setListener(TodayListFragment.this);
+                           recyclerView.setLayoutManager(llm);
+                           recyclerView.setAdapter(adapter);
+                       }
+                  }else{
+                      if(addProductDialog.isShowing()) {
+                          progressBar.setVisibility(View.GONE);
+                           recyclerView.setVisibility(View.GONE);
+                           noProductTv.setVisibility(View.VISIBLE);
+                      }
+                  }
+            }
+
+            @Override
+            public void onFailure(Call<SearchProductResponse> call, Throwable t) {
+                TextView noProductTv = addProductDialog.findViewById(R.id.no_product_tv);
+                RecyclerView recyclerView = addProductDialog.findViewById(R.id.products_rv);
+                ProgressBar progressBar = addProductDialog.findViewById(R.id.progressBar);
+                if(addProductDialog.isShowing()) {
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    noProductTv.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
     private void updateLists(List<Product> productList) {
 
         List<Product> breakfastList = new ArrayList<>();
@@ -196,6 +284,61 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         adapter.updateLists(breakfastList, firstSnackList, lunchList, secondSnackList, dinnerList, allKcal ,perKcal);
     }
 
+    @Override
+    public void onProductPressed(int position) {
+
+        if(addProductDialog.isShowing()){
+            RecyclerView recyclerView = addProductDialog.findViewById(R.id.products_rv);
+            ProgressBar progressBar = addProductDialog.findViewById(R.id.progressBar);
+            TextInputEditText productNameEt = addProductDialog.findViewById(R.id.product_name_et);
+            productNameEt.setText(productItemList.get(position).name);
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            getNutrients(position);
+        }
+
+    }
+
+    private void getNutrients(int position) {
+        Call<NutrientsResponse> call = RetrofitClient.getWebServices().sendGetNutrientsRequest(productItemList.get(position).number,"b","json", Constants.API_KEY);
+        call.enqueue(new Callback<NutrientsResponse>() {
+            @Override
+            public void onResponse(Call<NutrientsResponse> call, Response<NutrientsResponse> response) {
+
+                  ProgressBar progressBar  = addProductDialog.findViewById(R.id.progressBar);
+                  TextView caloriesTv = addProductDialog.findViewById(R.id.product_calories_tv);
+
+                  if(response.isSuccessful() && response.body().foodResponseList != null){
+                      if(addProductDialog.isShowing()){
+                          progressBar.setVisibility(View.GONE);
+                          List<Nutrient> nutrientList = response.body().foodResponseList.get(0).food.nutrientList;
+                          for(Nutrient n:nutrientList){
+                              if(n.nutrientName.equals("Energy")){
+                                   caloriesTv.setVisibility(View.VISIBLE);
+                                   caloriesTv.setText("This product has " + n.value + " kcal per 100g");
+                              }
+                          }
+                      }
+
+                  }else{
+                     if(addProductDialog.isShowing()){
+                         progressBar.setVisibility(View.GONE);
+                         caloriesTv.setVisibility(View.GONE);
+                     }
+                  }
+            }
+
+            @Override
+            public void onFailure(Call<NutrientsResponse> call, Throwable t) {
+                ProgressBar progressBar  = addProductDialog.findViewById(R.id.progressBar);
+                TextView caloriesTv = addProductDialog.findViewById(R.id.product_calories_tv);
+                progressBar.setVisibility(View.GONE);
+                caloriesTv.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
     public enum MealsSection {
         BREAKFAST,
         FIRST_SNACK,
@@ -222,6 +365,8 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
         binding.setTodayFragment(this);
         viewModel = ViewModelProviders.of(TodayListFragment.this).get(TodayViewModel.class);
         perKcal = PrefsManager.getInstance(getContext()).getKeyKcalPerDay();
+
+        addProductDialog = new Dialog(getActivity());
 
         listenToLiveData();
 

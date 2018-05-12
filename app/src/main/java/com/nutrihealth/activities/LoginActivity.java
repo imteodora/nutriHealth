@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity {
                         binding.setShowProgressBar(false);
                         if (!task.isSuccessful()) {
                             // there was an error
-                            showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.try_again), DialogType.ERROR, null);
+                            showCustomDialog(getResources().getString(R.string.error_title), task.getException().getLocalizedMessage(), DialogType.ERROR, null);
                         } else {
                             PrefsManager.getInstance(LoginActivity.this).putKeyIsUserLoggedIn(true);
                             IntentStarter.gotoHomeActivity(LoginActivity.this, true);

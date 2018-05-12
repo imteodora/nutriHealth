@@ -1,95 +1,98 @@
 <resources>
     <string name="app_name">NutriHealth</string>
-    <string name="loading">Se incarca...</string>
+    <string name="loading">Loading...</string>
     <string name="success">Succes</string>
 
     <!-- Errors -->
-    <string name="error_title">Eroare</string>
-    <string name="error_no_input">Campul este obligatoriu</string>
-    <string name="error_no_name">Completeaza un nume</string>
-    <string name="error_no_current_weight">Completeaza greutatea actuala</string>
-    <string name="error_no_gender">Alege sexul</string>
-    <string name="error_no_height">Completeaza inaltimea</string>
-    <string name="error_no_age">Completeaza varsta</string>
-    <string name="error_no_activity_type">Completeaza tipul activitatii</string>
-    <string name="error_invalid_email">Adresa de email invalida</string>
-    <string name="error_no_password">Completeaza parola</string>
-    <string name="error_confirmation_pass">Parola nu coincide</string>
-    <string name="try_again">Mai incearca o data</string>
-    <string name="error_password_length">Parola trebuie sa contina minim 6 caractere</string>
+    <string name="error_title">Error</string>
+    <string name="error_no_input">The field is mandatory</string>
+    <string name="error_no_name">Please fill a name</string>
+    <string name="error_no_current_weight">Please fill your weight</string>
+    <string name="error_no_gender">Please select your gender</string>
+    <string name="error_no_height">Plase fill your heigth</string>
+    <string name="error_no_age">Plase select your age</string>
+    <string name="error_no_activity_type">Please select your physical activities level</string>
+    <string name="error_invalid_email">Invalid email adress</string>
+    <string name="error_no_password">Please fill the password</string>
+    <string name="error_confirmation_pass">Confirmation password does not match</string>
+    <string name="try_again">Please try again</string>
+    <string name="error_password_length">Password must be at least 6 characters lenght</string>
 
     <!-- Profile screen -->
-    <string name="personal_data">Date personale</string>
-    <string name="save_profile">Salveaza</string>
-    <string name="name">Nume</string>
-    <string name="age">Varsta</string>
-    <string name="height">Inaltime(cm)</string>
-    <string name="actual_weight">Greutatea actuala(kg)</string>
-    <string name="choose">Alege</string>
-    <string name="edit_profile_pic">Alege o fotografie</string>
-    <string name="from_gallery">Din galerie</string>
-    <string name="take_a_pic">Fa o poza</string>
-    <string name="every_day_sport">Activitatile fizice zilnice</string>
-    <string name="choose_activities_level">Alege tipul activitatilor zilnice</string>
-    <string name="activity_lvl_1">Munca sedentara si putine alte activitati</string>
-    <string name="activity_lvl_2">Munca in picioare sau exercitii usoare 1-3 zile pe saptamana</string>
-    <string name="activity_lvl_3">Activitati zilnice moderate sau exercitii 5-6 zile pe saptamana</string>
-    <string name="activity_lvl_4">Exercitii intense zi de zi sau munca fizica intensa</string>
-    <string name="activity_lvl_5">Exercitii foarte obositoare si indelungate</string>
-    <string name="lvl_1">Nivelul 1</string>
-    <string name="lvl_2">Nivelul 2</string>
-    <string name="lvl_3">Nivelul 3</string>
-    <string name="lvl_4">Nivelul 4</string>
-    <string name="lvl_5">Nivelul 5</string>
-    <string name="profile_infos_saved">Informatiile au fost salvate</string>
+    <string name="personal_data">Personal information</string>
+    <string name="save_profile">Save</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="height">Heigth(cm)</string>
+    <string name="actual_weight">Weigth(kg)</string>
+    <string name="choose">Choose</string>
+    <string name="edit_profile_pic">Select a photo</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="take_a_pic">Take a pic</string>
+    <string name="every_day_sport">Your everyday activities</string>
+    <string name="choose_activities_level">Choose your everyday activities</string>
+    <string name="activity_lvl_1">Sedentary work and few other activities</string>
+    <string name="activity_lvl_2">Work standing up or light exercise 1\-3 days a week</string>
+    <string name="activity_lvl_3">Moderate daily activities or exercises 5\-6 days a week</string>
+    <string name="activity_lvl_4">Exercises intensive day by day or intense physical work</string>
+    <string name="activity_lvl_5">Extremely exhausting and long exercises</string>
+    <string name="lvl_1">Level 1</string>
+    <string name="lvl_2">Level 2</string>
+    <string name="lvl_3">Level 3</string>
+    <string name="lvl_4">Level 4</string>
+    <string name="lvl_5">Level 5</string>
+    <string name="profile_infos_saved">Your informations were saved</string>
 
     <!-- Home screen -->
-    <string name="edit_info">Editeaza informatiile</string>
-    <string name="alarms">Alarme</string>
-    <string name="profile">Profil</string>
+    <string name="edit_info">Edit profile</string>
+    <string name="alarms">Alarms</string>
+    <string name="profile">Profile</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="ideal_weight">Greutatea ideala:</string>
-    <string name="weight_to_lose">Trebuie dat jos:</string>
-    <string name="kcal_per_day">Numarul de kcal/zi:</string>
-    <string name="back_to_exit">Pentru a iesi din aplicatie, mai apasa o data in 3 secunde</string>
-    <string name="log_out">Deconectare</string>
+    <string name="ideal_weight">Your recommended weight:</string>
+    <string name="weight_to_lose">You have to loose:</string>
+    <string name="kcal_per_day">Number of kcal/day:</string>
+    <string name="back_to_exit">To exit the application, press again in 3 seconds</string>
+    <string name="log_out">Log out</string>
 
     <!-- Alarms screen -->
-    <string name="alarms_title">Alarme</string>
-    <string name="alarms_text_1">Acum poti tine o dieta echilibrata cu mese la ore fixe</string>
-    <string name="alarms_text_2">Nu iti mai face griji ca vei uita ora mesei</string>
-    <string name="alarms_text_3">Seteaza-ti alarma pentru micul dejun, pranz si cina, cat si pentru gustarile dintre mese</string>
-    <string name="breakfast">Micul dejun</string>
-    <string name="first_snack">Gustarea 1</string>
-    <string name="lunch">Pranzul</string>
-    <string name="second_snack">Gustarea 2</string>
-    <string name="diner">Cina</string>
-    <string name="notification_title">Ora mesei!</string>
-    <string name="notification_text">Este timpul pentru a lua o mica pauza si a te bucura de masa.</string>
-    <string name="notification_water_title"> Nu uita sa bei apa!</string>
-    <string name="notification_water_text"> Este timpul pentru un pahar de apa.</string>
-    <string name="water_reminder">Aminteste-mi sa beau apa!</string>
+    <string name="alarms_title">Alarms</string>
+    <string name="alarms_text_1">Now you can keep a balanced diet with meals at fixed hours</string>
+    <string name="alarms_text_2">Do not worry about forgetting dinner time</string>
+    <string name="alarms_text_3">Set your alarm for breakfast, lunch, dinner and for snacks between meals</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="first_snack">First snack</string>
+    <string name="lunch">Lunch</string>
+    <string name="second_snack">Second snack</string>
+    <string name="diner">Dinner</string>
+    <string name="notification_title">Meal time!</string>
+    <string name="notification_text">It\'s time to take a little break and enjoy the meal.</string>
+    <string name="notification_water_title"> Do not forget to drink water!</string>
+    <string name="notification_water_text"> It\'s time for a glass of water</string>
+    <string name="water_reminder">Remind me to drink water!</string>
 
     <!-- Calories screen -->
-    <string name="today">Astazi</string>
-    <string name="yesterday">Ieri</string>
-    <string name="history">Istoric</string>
-    <string name="calories_planner">Planificator calorii</string>
-    <string name="cancel">Renunta</string>
-    <string name="calories_number">Numarul de kcal</string>
-    <string name="you_have">Mai poti consuma</string>
-    <string name="you_had">Mai puteai consuma </string>
-    <string name="you_exceed">Ai depasit numarul permis cu</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="history">History</string>
+    <string name="calories_planner">Calories planner</string>
+    <string name="cancel">Cancel</string>
+    <string name="calories_number">Number of calories</string>
+    <string name="you_have">You can consume</string>
+    <string name="you_had">You could have consumed </string>
+    <string name="you_exceed">You have exceeded the recommended calories number with</string>
+    <string name="no_food">You don\' have any product here</string>
+    <string name="search">Search</string>
+    <string name="no_product">No product was found</string>
 
     <!-- Register screen -->
-    <string name="register">Inregistrare</string>
-    <string name="email">Adresa de email</string>
-    <string name="password">Parola</string>
-    <string name="password_confirmation">Confirma parola</string>
-    <string name="login">Intra in cont</string>
-    <string name="no_account">Nu ai cont?</string>
-    <string name="success_new_account">Contul a fost creat cu succes</string>
+    <string name="register">Register</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="password_confirmation">Password confirmation</string>
+    <string name="login">Login</string>
+    <string name="no_account">You don\'t have an account?</string>
+    <string name="success_new_account">Your account was successfully created</string>
 
 
 

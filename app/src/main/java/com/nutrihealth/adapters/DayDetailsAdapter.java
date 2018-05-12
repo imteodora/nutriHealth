@@ -94,10 +94,12 @@ public class DayDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
         ImageView addIconIv;
+        TextView noFoodTv;
 
         public FooterViewHolder(View itemView) {
             super(itemView);
             addIconIv = itemView.findViewById(R.id.add_icon_iv);
+            noFoodTv = itemView.findViewById(R.id.no_food_tv);
         }
     }
 
@@ -237,8 +239,28 @@ public class DayDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             case FOOTER_VIEW_TYPE:
                 FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-
                 footerViewHolder.addIconIv.setVisibility(View.GONE);
+                footerViewHolder.noFoodTv.setVisibility(View.GONE);
+                if (position == breakfastList.size() + 2)
+                    if(breakfastList.size() == 0){
+                      footerViewHolder.noFoodTv.setVisibility(View.VISIBLE);
+                    }
+                if (position == breakfastList.size() + 2 + firstSnackList.size() + 2)
+                    if(firstSnackList.size() == 0){
+                        footerViewHolder.noFoodTv.setVisibility(View.VISIBLE);
+                    }
+                if (position == breakfastList.size() + 2 + firstSnackList.size() + 2 + lunchList.size() + 2)
+                    if(lunchList.size() == 0){
+                        footerViewHolder.noFoodTv.setVisibility(View.VISIBLE);
+                    }
+                if (position == breakfastList.size() + 2 + firstSnackList.size() + 2 + lunchList.size() + 2 + secondSnackList.size() + 2)
+                    if(secondSnackList.size() == 0){
+                        footerViewHolder.noFoodTv.setVisibility(View.VISIBLE);
+                    }
+                if (position == breakfastList.size() + 2 + firstSnackList.size() + 2 + lunchList.size() + 2 + secondSnackList.size() + 2 + dinnerList.size() + 2)
+                    if(dinnerList.size() == 0){
+                        footerViewHolder.noFoodTv.setVisibility(View.VISIBLE);
+                    }
                 break;
         }
     }

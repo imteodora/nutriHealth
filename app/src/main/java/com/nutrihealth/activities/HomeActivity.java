@@ -51,6 +51,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         viewModel = ViewModelProviders.of(HomeActivity.this).get(HomeViewModel.class);
         auth = FirebaseAuth.getInstance();
 
+
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -179,6 +180,8 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     public void onLogoutPressed(View view){
 
         auth.signOut();
+        PrefsManager.getInstance(HomeActivity.this).putKeyIsUserLoggedIn(false);
+        IntentStarter.gotoLoginActivity(HomeActivity.this, true);
     }
 
     @Override
