@@ -24,7 +24,7 @@
             android:id="@+id/draweritem_separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_light" />
+            android:background="@color/gray_dark" />
         <ImageView
             android:id="@+id/draweritem_image"
             android:layout_width="20dp"

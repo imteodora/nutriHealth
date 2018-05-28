@@ -55,6 +55,7 @@ public class HistoryRepository {
     public void getHistory(){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.keepSynced(true);
         Query query = reference.child("products");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -100,6 +101,7 @@ public class HistoryRepository {
     public void getTodayHistory(final String date){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.keepSynced(true);
         Query query = reference.child("products");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -132,11 +134,10 @@ public class HistoryRepository {
     public void setProduct(Product product){
 
 
-
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         //build child
         mDatabase.child("products").push().setValue(product);
-
         setProductLiveData.setValue(Resource.success(new BaseResponse("Produsul a fost adaugat cu succes")));
     }
 }

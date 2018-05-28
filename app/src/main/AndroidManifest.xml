@@ -55,6 +55,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name="com.nutrihealth.activities.MealPlanningActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <provider
             android:name="com.nutrihealth.utils.GenericFileProvider"
             android:authorities="${applicationId}.my.package.name.provider"

@@ -48,8 +48,8 @@ public class ProfileRepository {
 
         //get firebase user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         //build child
         mDatabase.child("users").child(user.getUid()).setValue(profileInfos);
 
@@ -61,6 +61,7 @@ public class ProfileRepository {
     public void returnUserInfos() {
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -83,9 +84,8 @@ public class ProfileRepository {
 
     public void returnHomeUserInfos(final Context context) {
 
-
-
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 

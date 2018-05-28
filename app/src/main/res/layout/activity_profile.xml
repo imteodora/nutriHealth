@@ -31,6 +31,7 @@
             app:title="@string/personal_data" />
 
         <ScrollView
+            android:background="@drawable/main_gradient"
             android:layout_below="@+id/profile_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -43,8 +44,7 @@
                     android:layout_height="110dp"
 
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:background="@color/light_blue">
+                    android:layout_marginTop="@dimen/margin_medium">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="match_parent"

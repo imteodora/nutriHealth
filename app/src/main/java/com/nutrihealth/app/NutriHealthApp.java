@@ -3,6 +3,8 @@ package com.nutrihealth.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -19,6 +21,8 @@ public class NutriHealthApp extends Application {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Raleway-Medium.ttf")
                 .build());
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         mContext = this;
     }

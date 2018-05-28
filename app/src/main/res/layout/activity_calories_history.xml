@@ -35,65 +35,72 @@
             android:layout_alignParentTop="true"
             app:contentInsetStart="0dp"
             />
-
-        <LinearLayout
-            android:background="@color/gray_dark_bg"
-            android:id="@+id/sections_calories"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+        <RelativeLayout
+            android:background="@drawable/main_gradient"
             android:layout_below="@id/calories_history_toolbar"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="@{() -> sectionSelectListener.onSectionSelected(Section.TODAY)}" >
-                <TextView
-                    fontPath="fonts/Raleway-Medium.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/today"
-                    android:textColor="@{selectedSection == Section.TODAY ? @color/light_blue:@color/white}"
-                    android:textAllCaps="true"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:visibility="@{selectedSection == Section.TODAY ? View.VISIBLE:View.GONE}"
-                    android:background="@color/light_blue"
-                    android:layout_alignParentBottom="true" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="@{() -> sectionSelectListener.onSectionSelected(Section.HISTORY)}" >
-                <TextView
-                    fontPath="fonts/Raleway-Medium.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/history"
-                    android:textColor="@{selectedSection == Section.HISTORY ? @color/light_blue:@color/white}"
-                    android:textAllCaps="true"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:visibility="@{selectedSection == Section.HISTORY ? View.VISIBLE:View.GONE}"
-                    android:background="@color/light_blue"
-                    android:layout_alignParentBottom="true" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:id="@+id/fragments_container"
-            android:background="@color/gray_light"
-            android:layout_below="@+id/sections_calories"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <LinearLayout
+                android:background="@android:color/transparent"
+                android:id="@+id/sections_calories"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> sectionSelectListener.onSectionSelected(Section.TODAY)}" >
+                    <TextView
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/today"
+                        android:textColor="@{selectedSection == Section.TODAY ? @color/light_blue:@color/white}"
+                        android:textAllCaps="true"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:visibility="@{selectedSection == Section.TODAY ? View.VISIBLE:View.GONE}"
+                        android:background="@color/light_blue"
+                        android:layout_alignParentBottom="true" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> sectionSelectListener.onSectionSelected(Section.HISTORY)}" >
+                    <TextView
+                        fontPath="fonts/Raleway-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/history"
+                        android:textColor="@{selectedSection == Section.HISTORY ? @color/light_blue:@color/white}"
+                        android:textAllCaps="true"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:visibility="@{selectedSection == Section.HISTORY ? View.VISIBLE:View.GONE}"
+                        android:background="@color/light_blue"
+                        android:layout_alignParentBottom="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fragments_container"
+                android:layout_below="@+id/sections_calories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-        </FrameLayout>
+            </FrameLayout>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 </layout>

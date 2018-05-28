@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,8 +13,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nutrihealth.R;
@@ -43,6 +48,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     FirebaseAuth.AuthStateListener authListener;
 
     private boolean doubleBackToExitPressedOnce = false;
+    private Animation slideLeftEnter;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         binding = DataBindingUtil.setContentView(HomeActivity.this,R.layout.activity_home);
         viewModel = ViewModelProviders.of(HomeActivity.this).get(HomeViewModel.class);
         auth = FirebaseAuth.getInstance();
+        slideLeftEnter = AnimationUtils.loadAnimation(this, R.anim.anim_left_enter);
 
 
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -102,6 +109,16 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         binding.idealWeightTv.setText(Integer.toString(data.getIdealWeight()) + " kg");
         binding.weightToLoseTv.setText(Integer.toString(data.getActualWeight() - data.getIdealWeight()) + " kg");
         binding.calPerDayTv.setText(Integer.toString(data.getKcalPerDay()));
+
+
+        binding.firstContainer.setVisibility(View.VISIBLE);
+        binding.secondContainer.setVisibility(View.VISIBLE);
+        binding.thirdContainer.setVisibility(View.VISIBLE);
+
+
+        binding.firstContainer.startAnimation(slideLeftEnter);
+        binding.secondContainer.startAnimation(slideLeftEnter);
+        binding.thirdContainer.startAnimation(slideLeftEnter);
     }
 
     @Override
@@ -133,7 +150,6 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
     }
 
     private void setUpViews() {
-
         setStatusBarColor(R.color.black);
     }
 
@@ -172,6 +188,8 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
             case HISTORY:
                 IntentStarter.gotoCaloriesHistoryActivity(HomeActivity.this,false);
                 break;
+            case MEAL:
+                IntentStarter.gotoMealPlanningActivity(HomeActivity.this,false);
 
         }
         binding.drawerLayout.closeDrawer(Gravity.END);

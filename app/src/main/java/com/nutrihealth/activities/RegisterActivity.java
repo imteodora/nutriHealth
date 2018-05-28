@@ -299,15 +299,10 @@ public class RegisterActivity extends BaseActivity {
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         binding.setShowProgressBar(false);
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             showCustomDialog(getResources().getString(R.string.error_title), getResources().getString(R.string.try_again), DialogType.ERROR, null);
                         } else {
-
                             double activity = 1;
                             switch (selectedLvl) {
                                 case 0:
@@ -325,7 +320,6 @@ public class RegisterActivity extends BaseActivity {
                                 case 4:
                                     activity = Constants.SPORT_ACTIVITY_LVL_5;
                                     break;
-
                             }
 
                             int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), finalGender);

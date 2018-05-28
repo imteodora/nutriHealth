@@ -93,6 +93,7 @@ public class AlarmsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(AlarmsActivity.this, R.layout.activity_alarms);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         setUpViews();

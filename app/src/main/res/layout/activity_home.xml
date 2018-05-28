@@ -20,22 +20,22 @@
         android:layout_height="match_parent">
         <!-- Main content view -->
         <RelativeLayout
-            android:background="@color/gray_dark_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/main_gradient">
 
             <ImageView
-                android:scaleType="centerCrop"
-                android:src="@drawable/black_wallpaper"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/black_wallpaper" />
 
 
             <RelativeLayout
                 android:id="@+id/home_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height">
-
 
 
                 <TextView
@@ -60,8 +60,8 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:onClick="@{homeActivity::onMenuButtonPressed}"
-                    android:paddingRight="@dimen/margin_medium"
-                    android:paddingLeft="@dimen/margin_medium">
+                    android:paddingLeft="@dimen/margin_medium"
+                    android:paddingRight="@dimen/margin_medium">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -73,107 +73,127 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_centerInParent="true"
-                android:orientation="vertical"
-                android:layout_below="@+id/home_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@+id/home_toolbar"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_centerHorizontal="true"
                     android:id="@+id/user_profile_iv"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:src="@drawable/ic_account_circle_black_48dp" />
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/user_profile_iv"
                     android:layout_centerInParent="true"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:gravity="center"
-                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:id="@+id/first_container"
+                        android:layout_margin="@dimen/margin_medium"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/white_bg_rounnded_corners_3"
+                        android:elevation="3dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_margin="@dimen/margin_medium"
-                            android:text="@string/ideal_weight"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_big_1"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/ideal_weight"
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_medium_2" />
 
                         <TextView
                             android:id="@+id/ideal_weight_tv"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:textColor="@color/light_blue"
-                            android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_big_1" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:gravity="center"
-                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:id="@+id/second_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginRight="@dimen/margin_medium"
+                        android:background="@drawable/white_bg_rounnded_corners_3"
+                        android:elevation="5dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_margin="@dimen/margin_medium"
-                            android:text="@string/weight_to_lose"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_big_1"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/weight_to_lose"
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_medium_2" />
 
                         <TextView
                             android:id="@+id/weight_to_lose_tv"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:textColor="@color/light_blue"
-                            android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_big_1" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:gravity="center"
-                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:id="@+id/third_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:background="@drawable/white_bg_rounnded_corners_3"
+                        android:elevation="5dp"
+                        android:orientation="horizontal">
 
                         <TextView
+                            fontPath="fonts/Raleway-Medium.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
                             android:text="@string/kcal_per_day"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_big_1"
-                            fontPath="fonts/Raleway-Medium.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_medium_2" />
 
                         <TextView
+                            android:layout_marginLeft="-15dp"
                             android:id="@+id/cal_per_day_tv"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:textColor="@color/light_blue"
-                            android:textSize="@dimen/text_big_3"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:textColor="@color/gray_dark"
+                            android:textSize="@dimen/text_big_1" />
                     </LinearLayout>
                 </LinearLayout>
 
 
-
-
             </RelativeLayout>
+
             <ProgressBar
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -187,16 +207,16 @@
             android:background="@color/white">
 
             <RelativeLayout
-                android:background="@color/black"
                 android:id="@+id/drawer_header"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="100dp"
+                android:background="@color/black">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/logo"/>
+                    android:src="@drawable/logo" />
 
                 <View
                     android:layout_width="match_parent"
@@ -206,44 +226,45 @@
             </RelativeLayout>
 
             <ListView
-                android:background="@color/light_blue"
                 android:id="@+id/drawer_listview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/drawer_header"
+                android:background="@color/light_blue"
                 android:divider="@null"
                 android:dividerHeight="0dp" />
 
             <RelativeLayout
-                android:layout_alignParentBottom="true"
                 android:id="@+id/logout_container"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
                 android:onClick="@{homeActivity::onLogoutPressed}">
 
                 <View
                     android:id="@+id/draweritem_separator"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_light" />
+                    android:background="@color/gray_dark" />
+
                 <ImageView
                     android:id="@+id/draweritem_image"
-                    android:src="@drawable/ic_logout"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_centerVertical="true"/>
+                    android:src="@drawable/ic_logout" />
 
                 <TextView
-                    fontPath="fonts/Raleway-Medium.ttf"
-                    android:textColor="@color/black"
                     android:id="@+id/logout_tv"
+                    fontPath="fonts/Raleway-Medium.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/draweritem_image"
                     android:layout_centerVertical="true"
-                    android:text="@string/log_out"/>
+                    android:layout_toRightOf="@id/draweritem_image"
+                    android:text="@string/log_out"
+                    android:textColor="@color/black" />
 
 
             </RelativeLayout>

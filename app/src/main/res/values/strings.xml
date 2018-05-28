@@ -49,9 +49,9 @@
     <string name="profile">Profile</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="ideal_weight">Your recommended weight:</string>
-    <string name="weight_to_lose">You have to loose:</string>
-    <string name="kcal_per_day">Number of kcal/day:</string>
+    <string name="ideal_weight">Your recommended weight is</string>
+    <string name="weight_to_lose">You have to loose </string>
+    <string name="kcal_per_day">Number of kcal/day are </string>
     <string name="back_to_exit">To exit the application, press again in 3 seconds</string>
     <string name="log_out">Log out</string>
 
@@ -91,8 +91,15 @@
     <string name="password">Password</string>
     <string name="password_confirmation">Password confirmation</string>
     <string name="login">Login</string>
-    <string name="no_account">You don\'t have an account?</string>
+    <string name="no_account">You don\'t have an account? Sign up now.</string>
     <string name="success_new_account">Your account was successfully created</string>
+
+    <!-- Meal planning screen -->
+
+    <string name="meal_planning"> Meal planning</string>
+    <string name="carbogydrate">Carbohydrate (g)</string>
+    <string name="protein">Protein (g)</string>
+    <string name="sugars">Sugars (g)</string>
 
 
 
