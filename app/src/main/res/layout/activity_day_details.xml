@@ -17,7 +17,6 @@
     </data>
 
     <RelativeLayout
-        android:background="@color/gray_dark_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,16 +25,21 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            app:contentInsetStart="0dp"
-            />
+            app:contentInsetStart="0dp" />
 
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/day_details_toolbar"
-            android:id="@+id/products_rv"
+        <RelativeLayout
+            android:background="@drawable/main_gradient"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/day_details_toolbar">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/products_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium" />
+        </RelativeLayout>
+
 
     </RelativeLayout>
 </layout>

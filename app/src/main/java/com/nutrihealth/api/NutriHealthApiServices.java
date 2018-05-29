@@ -1,5 +1,6 @@
 package com.nutrihealth.api;
 
+import com.nutrihealth.api.response.MealPlanResponse;
 import com.nutrihealth.api.response.NutrientsResponse;
 import com.nutrihealth.api.response.SearchProductResponse;
 
@@ -12,6 +13,10 @@ import retrofit2.http.Query;
  */
 
 public interface NutriHealthApiServices {
+
+
+    @GET("nutrients")
+    Call<MealPlanResponse> sendNutrientsReportRequest(@Query("format") String format,@Query("api_key") String apiKey, @Query("max") String max, @Query("sort") String sort, @Query("nutrients") String nutrient1, @Query("nutrients") String nutrient2, @Query("nutrients") String nutrients3 );
 
     @GET("search")
     Call<SearchProductResponse> sendSearchProductRequest(@Query("format") String format, @Query("q") String productName,@Query("ds") String ds, @Query("sort") String sort, @Query("max") String maxItems,@Query("offset") String offset, @Query("api_key") String apiKey);
