@@ -323,7 +323,7 @@ public class RegisterActivity extends BaseActivity {
                             }
 
                             int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), finalGender);
-                            int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), idealWeight,finalGender, activity);
+                            int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), Integer.parseInt(currentWeight),finalGender, activity);
 
                             PrefsManager.getInstance(RegisterActivity.this).setKeyKcalPerDay(kcalPerDay);
                             ProfileInfos profileInfos = new ProfileInfos(name, Integer.parseInt(currentWeight), finalGender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight,kcalPerDay );

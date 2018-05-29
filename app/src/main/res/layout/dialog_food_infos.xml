@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_bg_rounnded_corners">
+
+
+        <TextView
+            android:id="@+id/product_name_tv"
+            fontPath="fonts/Raleway-Medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="Product name"
+            android:textAlignment="center"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_medium_2" />
+
+        <LinearLayout
+            android:id="@+id/infos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_name_tv"
+            android:layout_margin="@dimen/margin_medium"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/nr_carbogydrate"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_medium_2" />
+
+                <TextView
+                    android:id="@+id/nr_carbs_tv"
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/margin_small"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/text_big_1" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/nr_protein"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_medium_2" />
+
+                <TextView
+                    android:id="@+id/nr_protein_tv"
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/margin_small"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/text_big_1" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/nr_sugars"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_medium_2" />
+
+                <TextView
+                    android:id="@+id/nr_fat_tv"
+                    fontPath="fonts/Raleway-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/margin_small"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/text_big_1" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/infos"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/buttons_bg"
+            android:text="@string/ok" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

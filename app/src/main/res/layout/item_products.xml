@@ -7,7 +7,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_dark_bg" />
+        android:background="@color/black" />
     <TextView
         android:layout_centerVertical="true"
         android:id="@+id/product_name_tv"
@@ -16,7 +16,7 @@
         android:text="Omleta"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textColor="@color/gray_dark"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_medium_2"
         fontPath="fonts/Raleway-Medium.ttf"
         android:layout_width="wrap_content"

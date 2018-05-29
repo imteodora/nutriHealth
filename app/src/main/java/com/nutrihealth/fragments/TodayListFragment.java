@@ -204,7 +204,7 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
 
     private void getSearchResults(String productName){
 
-        Call<SearchProductResponse> call = RetrofitClient.getWebServices().sendSearchProductRequest("json",productName,"Standard Reference","r","10", "0", Constants.API_KEY);
+        Call<SearchProductResponse> call = RetrofitClient.getWebServices().sendSearchProductRequest("json",productName,"Standard Reference","r","20", "0", Constants.API_KEY);
 
         call.enqueue(new Callback<SearchProductResponse>() {
             @Override

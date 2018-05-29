@@ -405,7 +405,7 @@ public class ProfileActivity extends BaseActivity {
         }
 
         int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), gender);
-        int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), idealWeight,gender, activity);
+        int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), Integer.parseInt(currentWeight),gender, activity);
 
         PrefsManager.getInstance(ProfileActivity.this).setKeyKcalPerDay(kcalPerDay);
         binding.setShowProgressBar(true);

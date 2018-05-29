@@ -1,6 +1,7 @@
 package com.nutrihealth.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +9,12 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.nutrihealth.R;
 import com.nutrihealth.adapters.MealPlanAdapter;
@@ -41,6 +47,7 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
     private ActivityMealPlanningBinding binding;
 
     private List<MealPlanFood> foodList;
+    private List<MealPlanFood> currentList;
     private double carbohydrate;
     private double protein;
     private double fat;
@@ -239,6 +246,8 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
                     adapter.setListener(MealPlanningActivity.this);
                     binding.foodRv.setLayoutManager(llm);
                     binding.foodRv.setAdapter(adapter);
+                    currentList = new ArrayList<>();
+                    currentList = foodList;
                 }else{
                     binding.foodRv.setVisibility(View.GONE);
                     showCustomDialog(getResources().getString(R.string.error_title), "Please try again with other values", DialogType.ERROR, null);
@@ -345,6 +354,34 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
 
     @Override
     public void onProductPressed(int position) {
+        final Dialog foodInfoDialog = new Dialog(MealPlanningActivity.this);
+        foodInfoDialog.setContentView(R.layout.dialog_food_infos);
 
+        MealPlanFood food = currentList.get(position);
+
+        TextView productName = foodInfoDialog.findViewById(R.id.product_name_tv);
+        TextView carbsTv = foodInfoDialog.findViewById(R.id.nr_carbs_tv);
+        TextView proteinTv = foodInfoDialog.findViewById(R.id.nr_protein_tv);
+        TextView fatsTv = foodInfoDialog.findViewById(R.id.nr_fat_tv);
+        Button okBtn = foodInfoDialog.findViewById(R.id.ok_button);
+
+        carbsTv.setText(String.valueOf(food.nutrientList.get(2).valuePer100g));
+        proteinTv.setText(String.valueOf(food.nutrientList.get(0).valuePer100g));
+        fatsTv.setText(String.valueOf(food.nutrientList.get(1).valuePer100g));
+        productName.setText(food.foodName);
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodInfoDialog.dismiss();
+            }
+        });
+
+        Window window = foodInfoDialog.getWindow();
+        window.setGravity(Gravity.TOP);
+        window.getAttributes().windowAnimations = R.style.DialogAnimationUpToDown;
+        window.setBackgroundDrawableResource(android.R.color.white);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        foodInfoDialog.show();
     }
 }

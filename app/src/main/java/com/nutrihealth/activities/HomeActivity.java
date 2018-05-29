@@ -1,5 +1,6 @@
 package com.nutrihealth.activities;
 
+import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,18 +11,26 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.nutrihealth.R;
 import com.nutrihealth.adapters.NavigationDrawerAdapter;
+import com.nutrihealth.api.response.MealPlanFood;
 import com.nutrihealth.base.BaseActivity;
 import com.nutrihealth.databinding.ActivityHomeBinding;
 import com.nutrihealth.listeners.DrawerItemListener;
@@ -29,6 +38,7 @@ import com.nutrihealth.model.HomeInfos;
 import com.nutrihealth.prefs.PrefsManager;
 import com.nutrihealth.repository.Resource;
 import com.nutrihealth.utils.BitmapUtils;
+import com.nutrihealth.utils.InputValidator;
 import com.nutrihealth.utils.IntentStarter;
 import com.nutrihealth.viewModels.HomeViewModel;
 import com.nutrihealth.viewModels.ProfileViewModel;
@@ -107,7 +117,14 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
         binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(data.getImage()));
         binding.idealWeightTv.setText(Integer.toString(data.getIdealWeight()) + " kg");
-        binding.weightToLoseTv.setText(Integer.toString(data.getActualWeight() - data.getIdealWeight()) + " kg");
+
+        if( (data.getActualWeight() - data.getIdealWeight()) < 0){
+            binding.weightToLoseTv.setText( " 0 kg");
+        } else{
+            binding.weightToLoseTv.setText(Integer.toString(data.getActualWeight() - data.getIdealWeight()) + " kg");
+        }
+
+
         binding.calPerDayTv.setText(Integer.toString(data.getKcalPerDay()));
 
 
@@ -119,6 +136,62 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         binding.firstContainer.startAnimation(slideLeftEnter);
         binding.secondContainer.startAnimation(slideLeftEnter);
         binding.thirdContainer.startAnimation(slideLeftEnter);
+
+        binding.thirdContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final Dialog chooseCal = new Dialog(HomeActivity.this);
+                chooseCal.setContentView(R.layout.dialog_add_calories);
+                
+                
+                Button okBtn = chooseCal.findViewById(R.id.choose_button);
+                Button cancelBtn = chooseCal.findViewById(R.id.cancel_button);
+                final TextInputEditText caloriesEt = chooseCal.findViewById(R.id.cal_number_et);
+                
+
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        chooseCal.dismiss();
+                    }
+                });
+                okBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        
+                        String nrCalories = caloriesEt.getText().toString();
+                        caloriesEt.setError(null);
+                        if(InputValidator.isInputEmpty(nrCalories)){
+                            caloriesEt.setError(getResources().getString(R.string.error_no_input));
+                            return;
+                        }
+                        
+                        saveNrOfCalories(nrCalories);
+                        chooseCal.dismiss();
+                    }
+                });
+
+                Window window = chooseCal.getWindow();
+                window.setGravity(Gravity.TOP);
+                window.getAttributes().windowAnimations = R.style.DialogAnimationUpToDown;
+                window.setBackgroundDrawableResource(android.R.color.white);
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                chooseCal.show();
+                return false;
+            }
+        });
+    }
+
+    private void saveNrOfCalories(String nrCalories) {
+
+        //get firebase user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
+        //build child
+        mDatabase.child("users").child(user.getUid()).child("kcalPerDay").setValue(Integer.parseInt(nrCalories));
+        binding.calPerDayTv.setText(nrCalories);
+        showCustomDialog(getResources().getString(R.string.success), getResources().getString(R.string.profile_infos_saved), DialogType.SUCCESS, null);
     }
 
     @Override
