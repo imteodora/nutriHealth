@@ -16,6 +16,9 @@ public class MealPlanFood {
     @SerializedName("name")
     public String foodName;
 
+    @SerializedName("weight")
+    public String weight;
+
     @SerializedName("nutrients")
     public List<MealPlanNutrient> nutrientList;
 

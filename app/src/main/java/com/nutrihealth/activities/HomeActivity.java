@@ -115,17 +115,19 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
 
     private void populateViews(HomeInfos data) {
 
-        binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(data.getImage()));
+        if (data.getImage() != null){
+            binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(data.getImage()));
+        }
         binding.idealWeightTv.setText(Integer.toString(data.getIdealWeight()) + " kg");
 
         if( (data.getActualWeight() - data.getIdealWeight()) < 0){
-            binding.weightToLoseTv.setText( " 0 kg");
-        } else{
-            binding.weightToLoseTv.setText(Integer.toString(data.getActualWeight() - data.getIdealWeight()) + " kg");
+            binding.weightTv.setText( getResources().getString(R.string.weight_to_gain));
         }
-
+        binding.weightToLoseTv.setText(String.valueOf(Math.abs(data.getActualWeight() - data.getIdealWeight()) + " kg"));
 
         binding.calPerDayTv.setText(Integer.toString(data.getKcalPerDay()));
+
+        PrefsManager.getInstance(HomeActivity.this).setKeyKcalPerDay(data.getKcalPerDay());
 
 
         binding.firstContainer.setVisibility(View.VISIBLE);
@@ -191,6 +193,7 @@ public class HomeActivity extends BaseActivity implements DrawerItemListener {
         //build child
         mDatabase.child("users").child(user.getUid()).child("kcalPerDay").setValue(Integer.parseInt(nrCalories));
         binding.calPerDayTv.setText(nrCalories);
+        PrefsManager.getInstance(HomeActivity.this).setKeyKcalPerDay(Integer.parseInt(nrCalories));
         showCustomDialog(getResources().getString(R.string.success), getResources().getString(R.string.profile_infos_saved), DialogType.SUCCESS, null);
     }
 

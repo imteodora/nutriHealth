@@ -137,6 +137,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/weight_tv"
                             fontPath="fonts/Raleway-Medium.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -254,7 +255,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/ic_logout" />
+                    android:src="@drawable/icons8_export_96" />
 
                 <TextView
                     android:id="@+id/logout_tv"

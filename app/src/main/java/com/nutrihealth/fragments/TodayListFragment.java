@@ -1,5 +1,6 @@
 package com.nutrihealth.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -302,6 +303,7 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
     private void getNutrients(int position) {
         Call<NutrientsResponse> call = RetrofitClient.getWebServices().sendGetNutrientsRequest(productItemList.get(position).number,"b","json", Constants.API_KEY);
         call.enqueue(new Callback<NutrientsResponse>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<NutrientsResponse> call, Response<NutrientsResponse> response) {
 
@@ -315,7 +317,7 @@ public class TodayListFragment extends BaseFragment implements TodayPlannerAdapt
                           for(Nutrient n:nutrientList){
                               if(n.nutrientName.equals("Energy")){
                                    caloriesTv.setVisibility(View.VISIBLE);
-                                   caloriesTv.setText("This product has " + n.value + " kcal per 100g");
+                                   caloriesTv.setText(getString(R.string.this_prod) + n.value + getString(R.string.kcal_100));
                               }
                           }
                       }

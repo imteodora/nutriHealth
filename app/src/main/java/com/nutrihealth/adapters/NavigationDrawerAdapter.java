@@ -22,10 +22,10 @@ import com.nutrihealth.listeners.DrawerItemListener;
 public class NavigationDrawerAdapter extends ArrayAdapter {
 
     public enum DrawerItem {
-        ALARMS(R.string.alarms, R.drawable.ic_account_circle_black_48dp),
-        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp),
-        HISTORY(R.string.calories_planner, R.drawable.ic_account_circle_black_48dp),
-        MEAL(R.string.meal_planning, R.drawable.ic_account_circle_black_48dp);
+        ALARMS(R.string.alarms, R.drawable.icons8_alarm_clock_96),
+        PROFILE(R.string.profile, R.drawable.icons8_user_96),
+        HISTORY(R.string.calories_planner, R.drawable.icons8_planner_96),
+        MEAL(R.string.meal_planning, R.drawable.icons8_restaurant_96);
 
         private final int stringResId;
         private final int imageResId;
@@ -45,10 +45,10 @@ public class NavigationDrawerAdapter extends ArrayAdapter {
     }
 
     public enum DrawerItemPressed {
-        ALARMS(R.string.alarms, R.drawable.ic_account_circle_black_48dp),
-        PROFILE(R.string.profile, R.drawable.ic_account_circle_black_48dp),
-        HISTORY(R.string.calories_planner, R.drawable.ic_account_circle_black_48dp),
-        MEAL(R.string.meal_planning, R.drawable.ic_account_circle_black_48dp);
+        ALARMS(R.string.alarms, R.drawable.icons8_alarm_clock_96),
+        PROFILE(R.string.profile, R.drawable.icons8_user_96),
+        HISTORY(R.string.calories_planner, R.drawable.icons8_planner_96),
+        MEAL(R.string.meal_planning, R.drawable.icons8_restaurant_96);
 
         private final int stringResId;
         private final int imageResId;

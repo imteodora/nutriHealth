@@ -11,7 +11,7 @@ public class MealPlanNutrient {
     @SerializedName("nutrient_id")
     public String nutrientsId;
 
-    @SerializedName("gm")
+    @SerializedName("value")
     public double valuePer100g;
 
 }

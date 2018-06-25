@@ -93,11 +93,10 @@ public class ProfileRepository {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ProfileInfos profileInfos = dataSnapshot.getValue(ProfileInfos.class);
-                String base64Image = PrefsManager.getInstance(context).getKeyPicture();
                 int actualWeight = profileInfos.getActualWeight();
                 int idealWeight = profileInfos.getIdealWeight();
                 int kcalPerDay = profileInfos.getKcalPerDay();
-                homeUserInfosLiveData.setValue(Resource.success(new HomeInfos(base64Image, actualWeight, idealWeight, kcalPerDay)));
+                homeUserInfosLiveData.setValue(Resource.success(new HomeInfos(profileInfos.getPicture(), actualWeight, idealWeight, kcalPerDay)));
             }
 
             @Override

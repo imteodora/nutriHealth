@@ -74,13 +74,14 @@ public class ProfileActivity extends BaseActivity {
 
     private Uri cameraImageFileUri;
     private int selectedLvl = -1;
+    private String profilePicBitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(ProfileActivity.this).get(ProfileViewModel.class);
-
+        viewModel = ViewModelProviders.of(ProfileActivity.this)
+                .get(ProfileViewModel.class);
 
 
         binding = DataBindingUtil.setContentView(ProfileActivity.this, R.layout.activity_profile);
@@ -162,8 +163,7 @@ public class ProfileActivity extends BaseActivity {
                     e.printStackTrace();
                 } catch (Resources.NotFoundException e) {
                     e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -178,8 +178,12 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void populateViews(ProfileInfos data) {
-        String base64Image = PrefsManager.getInstance(ProfileActivity.this).getKeyPicture();
-        binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(base64Image));
+
+        if(data.getPicture() != null){
+            String base64Image = data.getPicture();
+            binding.userProfileIv.setImageBitmap(BitmapUtils.decodeBase64(base64Image));
+        }
+
 
         binding.nameEt.setText(data.getName());
         binding.currentWeightEt.setText(Integer.toString(data.getActualWeight()));
@@ -240,9 +244,9 @@ public class ProfileActivity extends BaseActivity {
         agePicker.setMaxValue(90); // max value 100
         agePicker.setMinValue(18);   // min value 0
 
-        setDividerColor(agePicker, ContextCompat.getColor(ProfileActivity.this,R.color.light_blue));
+        setDividerColor(agePicker, ContextCompat.getColor(ProfileActivity.this, R.color.light_blue));
         String selectedAge = binding.ageEt.getText().toString();
-        if(!InputValidator.isInputEmpty(selectedAge)){
+        if (!InputValidator.isInputEmpty(selectedAge)) {
             agePicker.setValue(Integer.valueOf(selectedAge));
         }
         agePicker.setWrapSelectorWheel(false);
@@ -405,11 +409,11 @@ public class ProfileActivity extends BaseActivity {
         }
 
         int idealWeight = WeightUtils.calculateIdealWeight(Integer.parseInt(height), Integer.parseInt(age), gender);
-        int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height),  Integer.parseInt(age), Integer.parseInt(currentWeight),gender, activity);
+        int kcalPerDay = WeightUtils.calculateCalPerDay(Integer.parseInt(height), Integer.parseInt(age), Integer.parseInt(currentWeight), gender, activity);
 
         PrefsManager.getInstance(ProfileActivity.this).setKeyKcalPerDay(kcalPerDay);
         binding.setShowProgressBar(true);
-        viewModel.editProfileInfos(new ProfileInfos(name, Integer.parseInt(currentWeight), gender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight,kcalPerDay));
+        viewModel.editProfileInfos(new ProfileInfos(profilePicBitmap, name, Integer.parseInt(currentWeight), gender, Integer.parseInt(height), Integer.parseInt(age), selectedLvl, idealWeight, kcalPerDay));
     }
 
     private void showUpdatePictureDialog() {
@@ -557,6 +561,7 @@ public class ProfileActivity extends BaseActivity {
                     if (resizedBitmap != null) {
 
                         binding.userProfileIv.setImageBitmap(resizedBitmap);
+                        profilePicBitmap = BitmapUtils.encodeBitmapToBase64(resizedBitmap);
                         PrefsManager.getInstance(ProfileActivity.this).putKeyPicture(BitmapUtils.encodeBitmapToBase64(resizedBitmap));
                     }
 
@@ -603,6 +608,7 @@ public class ProfileActivity extends BaseActivity {
                         if (bitmapPhoto != null) {
 
                             binding.userProfileIv.setImageBitmap(bitmapPhoto);
+                            profilePicBitmap = BitmapUtils.encodeBitmapToBase64(bitmapPhoto);
                             PrefsManager.getInstance(ProfileActivity.this).putKeyPicture(BitmapUtils.encodeBitmapToBase64(bitmapPhoto));
 
                         }

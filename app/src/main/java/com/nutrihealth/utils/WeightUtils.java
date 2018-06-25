@@ -22,7 +22,7 @@ public class WeightUtils {
         return (int) idealWeight;
     }
 
-    public static int calculateCalPerDay(int height, int age, int idealWeight, String gender, double sport) {
+    public static int calculateCalPerDay(int height, int age, int idealWeight, String gender, double activityLevel) {
         double idealCal = 0;
 
         if (gender.equals(Constants.GENDER_M)) {
@@ -33,6 +33,6 @@ public class WeightUtils {
             idealCal = 10 * idealWeight + 6.25 * height - 5 * age - 161;
         }
 
-        return (int) (idealCal * sport);
+        return (int) (idealCal * activityLevel);
     }
 }

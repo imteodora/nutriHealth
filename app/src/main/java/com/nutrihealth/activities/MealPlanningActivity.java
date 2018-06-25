@@ -279,7 +279,6 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
     private MealPlanFood deletedFood;
 
     private List<MealPlanFood> deleteMaxCarb(List<MealPlanFood> finalFoodList) {
-
         double max = 0;
         int pos = -1;
         for (int i = 0; i < finalFoodList.size(); i++) {
@@ -288,15 +287,12 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
                 pos = i;
             }
         }
-
         if (pos != -1) {
             deletedFood = finalFoodList.get(pos);
             finalFoodList.remove(pos);
 
         }
-
         return finalFoodList;
-
     }
 
 
@@ -368,7 +364,8 @@ public class MealPlanningActivity extends BaseActivity implements MealPlanAdapte
         carbsTv.setText(String.valueOf(food.nutrientList.get(2).valuePer100g));
         proteinTv.setText(String.valueOf(food.nutrientList.get(0).valuePer100g));
         fatsTv.setText(String.valueOf(food.nutrientList.get(1).valuePer100g));
-        productName.setText(food.foodName);
+        productName.setText(food.foodName + " (" + food.weight + " g)");
+
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override

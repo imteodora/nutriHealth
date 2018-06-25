@@ -9,6 +9,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class ProfileInfos {
 
+    private String picture;
     private String name;
     private int actualWeight;
     private String gender;
@@ -18,6 +19,10 @@ public class ProfileInfos {
     private int idealWeight;
     private int kcalPerDay;
 
+    public String getPicture() {
+        return picture;
+    }
+
     public int getIdealWeight() {
         return idealWeight;
     }
@@ -26,7 +31,8 @@ public class ProfileInfos {
         return kcalPerDay;
     }
 
-    public ProfileInfos(String name, int actualWeight, String gender, int height, int age, int activityLvl, int idealWeight, int kcalPerDay) {
+    public ProfileInfos(String picture, String name, int actualWeight, String gender, int height, int age, int activityLvl, int idealWeight, int kcalPerDay) {
+        this.picture = picture;
         this.name = name;
         this.actualWeight = actualWeight;
         this.gender = gender;

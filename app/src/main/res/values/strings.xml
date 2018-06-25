@@ -51,6 +51,7 @@
     <string name="drawer_close">Close</string>
     <string name="ideal_weight">Your recommended weight is</string>
     <string name="weight_to_lose">You have to loose </string>
+    <string name="weight_to_gain">You have to gain</string>
     <string name="kcal_per_day">Number of kcal/day are </string>
     <string name="back_to_exit">To exit the application, press again in 3 seconds</string>
     <string name="log_out">Log out</string>
@@ -100,14 +101,14 @@
     <string name="carbogydrate">Carbohydrate (g)</string>
     <string name="protein">Protein (g)</string>
     <string name="sugars">Total lipid - fat (g)</string>
-    <string name="nr_carbogydrate">Carbohydrate (100 g)</string>
-    <string name="nr_protein">Protein (100 g)</string>
-    <string name="nr_sugars">Total lipid - fat (100 g)</string>
+    <string name="nr_carbogydrate">Carbohydrate</string>
+    <string name="nr_protein">Protein</string>
+    <string name="nr_sugars">Total lipid - fat</string>
     <string name="ok">Ok</string>
     <string name="change_calories">You cand add by yourself the number of calories you want to consume each day</string>
     <string name="add">Add</string>
-
-
+    <string name="this_prod">This product has</string>
+    <string name="kcal_100">kcal per 100g</string>
 
 
 </resources>
